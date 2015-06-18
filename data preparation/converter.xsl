@@ -12,9 +12,6 @@
 	
 	<xsl:template match="marc:record">
 		<book>
-			<id>
-				<xsl:value-of select="marc:controlfield"/>
-			</id>
 			<language>
 				<xsl:value-of select="marc:datafield[@tag='101']"/>
 			</language>
@@ -70,11 +67,9 @@
 	</xsl:template>
 	
 	<xsl:template match="marc:datafield[@tag='610']/marc:subfield[@code='a']">
-			<xsl:value-of select="."/>, 
-	</xsl:template>
+			<xsl:value-of select="."/>: </xsl:template>
 	
 	<xsl:template match="marc:datafield[@tag='900']/marc:subfield[@code='d']">
-			<xsl:value-of select="."/>, 
-	</xsl:template>
+			<xsl:value-of select="."/>: </xsl:template>
 
 </xsl:stylesheet>
