@@ -44,14 +44,6 @@
 				<xsl:value-of select="marc:datafield[@tag='215']/marc:subfield[@code='a']"/>
 			</pages>
 			
-			<cdrom>
-				<xsl:value-of select="marc:datafield[@tag='215']/marc:subfield[@code='e']"/>
-			</cdrom>
-			
-			<series>
-				<xsl:value-of select="marc:datafield[@tag='225']/marc:subfield[@code='a']"/>
-			</series>
-			
 			<ebook>
 				<xsl:value-of select="marc:datafield[@tag='200']/marc:subfield[@code='b']"/>
 			</ebook>
@@ -67,9 +59,9 @@
 	</xsl:template>
 	
 	<xsl:template match="marc:datafield[@tag='610']/marc:subfield[@code='a']">
-			<xsl:value-of select="."/>: </xsl:template>
+			<xsl:value-of select="."/>, </xsl:template>
 	
 	<xsl:template match="marc:datafield[@tag='900']/marc:subfield[@code='d']">
-			<xsl:value-of select="."/>: </xsl:template>
+			<xsl:value-of select="."/>, </xsl:template>
 
 </xsl:stylesheet>

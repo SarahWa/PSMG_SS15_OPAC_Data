@@ -3,18 +3,65 @@
 <head>
     <meta charset="utf-8">
     <title>OPAC Data</title>
-    
+	<link rel="stylesheet" type="text/css" href="css/gridic.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 
 <body>
+    <header class="c12 blue">
+		<h1>OPAC Daten</h1>
+	</header>
     
-    
-    <header>OPAC Daten</header>
-    
-    <content>
+	<main>
+	<nav class="c2 navi links blue">
+		<ul id="navlist">
+			<li>eigene Filter</li>
+			<li>Statisch 1</li>
+			<li>Statisch 2</li>
+			<li>Statisch 3</li>
+			<li>Statisch 4</li>
+		</ul>	
+	</nav>
+    <content class="c10 end">
+		<div id="filterinput">
+			<ul id="filterlist">
+				<li class ="row">
+					<div class="c3 keywords">
+						<input type="text" placeholder="Stichwort">
+						<input type="text" placeholder="Stichwort">
+						<input type="text" placeholder="Stichwort">
+						<input type="text" placeholder="Stichwort">
+					</div>
+					<div class="c3">
+						<input type="text" placeholder="Autor">
+						<div class="minMarginTop">
+							<input type="number" placeholder="min Jahr">
+							<input type="number" placeholder="max Jahr">
+						</div>
+					</div>
+					<div class="c3">
+						<input type="text" placeholder="Verlag">
+						<div class="minMarginTop">
+							<input type="number" placeholder="min Seiten">
+							<input type="number" placeholder="max Seiten">
+						</div>
+					</div>
+					<div class="c3">
+						<input type="text" placeholder="Ort">
+						<input type="image" src="assets/ic_add_circle_outline_black_36dp_2x.png" alt="vergleichen" class="minMarginTop" align="right"> 
+					</div>
+				</li>
+			</ul>
+			<button class="s9 c3" id="createChart">Anzeigen</button>
+		</div>
         <svg class="chart"></svg>
     </content>
-
+	
+	</main>
+	
+	<footer>
+	
+	</footer>
     <script src="libs/d3.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
     <script src="src/OpacApp.js"></script>
@@ -28,6 +75,11 @@
     
     
     </script>
+	<script id="filterInputTemplate" type="text/template">
+		<li>
+			<input type=>
+		</li>
+	</script>
     
 </body>
     

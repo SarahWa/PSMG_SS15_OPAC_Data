@@ -12,38 +12,18 @@
     /* http server */
     var server = express();
 
-    /* mensa data */
+    /* book data */
     var data;
 
     /* configuration */
     var PORT = 3333;
     var WWW = path.join(__dirname, "./www/");
     var DATA = path.join(__dirname, "./data/");
-    var BOOKS = path.join(DATA, "book.csv");
+    var BOOKS = path.join(DATA, "opac_st.csv");
 
-    /**
-     * returns the meal served on a given day
-     */
-    function getDataByYear(year) {
-      	var result = [];
-		for (var i = 0; i< data.length; i++) {
-			if (data[i].publishingyear == year) {
-				result.push(data[i]);
-			}
-		}
-		return result;
-    }
 	
-	function getSignatures() {
-		var result = [];
-		for (var i = 0; i< data.length; i++) {
-			result.push(data[i].signature)
-		}
-		return result;
-	}
-	
-	function getDataByKeyword(kw1, kw2, kw3, kw4, author, publisher, place) {
-		var result = [],
+	function getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
+		var resultCounter = 0,
 			counter = 0;
 		for (var i = 0; i< data.length; i++) {
 			if (keywordSearch(kw1, data[i])) {
@@ -58,23 +38,54 @@
 			if (keywordSearch(kw4, data[i])) {
 				counter++;
 			}
-			if (data[i].author.indexOf(author)>=0 || author == "") {
+			if (author == "" || data[i].author.indexOf(author)>=0) {
 				counter++;
 			}
-			if (data[i].publisher.indexOf(publisher)>=0 || publisher == "") {
+			if (publisher == "" || data[i].publisher.indexOf(publisher)>=0) {
 				counter++;
 			}
-			if (data[i].publishingplace.indexOf(place)>=0 || place == "") {
+			if (place == "" || data[i].publishingplace.indexOf(place)>=0) {
+				counter++;
+			}
+			if (language == "" || data[i].language.indexOf(language)>=0){
+				counter++;
+			}
+			// !!! default needed !!!
+			if ((minYear <= data[i].publishingyear && maxYear >= data[i].publishingyear)){
+				counter++;
+			}
+			if (data[i].publishingyear == "" && minYear == 0 && maxYear == 2016) {
 				counter++;
 			}
 			
-			if (counter == 7) {	
-				result.push(data[i]);
+			// only one of the following can happen
+			if (medium == "") {
+				counter++;
+			}
+			if (medium == "ebook" && data[i].ebook != "") {
+				counter++;
+			}
+			if (medium == "book" && data[i].signatures != "" ) {
+				counter++;
+			}
+			// one of the 3 above
+			
+			// !!! default needed !!!
+			if ((minPages <= data[i].pages && maxPages >= data[i].pages) || data[i].pages == "") {
+				counter++;
+			}
+			
+			if (bib == "" || data[i].signatures.indexOf(bib)>=0) {
+				counter++;
+			}
+			
+			if (counter >= 12) {	
+				resultCounter++;			// it's a match
 			}
 			counter = 0;
 			
 		}
-		return result;
+		return resultCounter;
 	}
 	
 	function keywordSearch(keyword, data) {
@@ -88,18 +99,7 @@
 		return false;
 	}
 	
-	// for analysis
-	function getLanguages() {
-		var result = [];
-		
-		for (var i = 0; i< data.length; i++) {
-			if (result.indexOf(data[i].language) < 0 ) {
-				result.push(data[i].language);
-			}		
-			
-		}
-		return result;
-	}
+
 
     /**
      * loads the csv formatted data 
@@ -112,12 +112,7 @@
             });
         csvConverter.on("end_parsed", function (jsonArray) {
             data = jsonArray;
-			for (var i = 0; i < data.length; i++) {
-				data[i].title = data[i].title.toLowerCase();
-				data[i].subtitle = data[i].subtitle.toLowerCase();
-				data[i].tags = data[i].tags.toLowerCase();
-            }
-			console.log("json fertig");
+			console.log("data loaded");
         });
         fileStream.pipe(csvConverter);
     }
@@ -128,44 +123,36 @@
      */
     function start() {
         server.use(cors());
-        /*server.get("/api/get/customers", function (req, res) {
-            res.sendFile(CUSTOMERS);
-        });
-        server.get("/api/get/meals/*", function (req, res) {
-            var requestedDay = req.params[0];
-            res.send({
-                day: requestedDay,
-                meal: getMealForDay(requestedDay)
-            });
-        });*/
-		server.get("/api/get/year/*", function (req, res) {
-			var requestedYear = req.params[0];
-			res.send({
-				year: requestedYear,
-				booktitle: getDataByYear(requestedYear)
-			});
-		});
-		server.get("/api/get/allsignatures", function (req, res) {
-			res.send({
-				signatures: getSignatures()
-			});
-		});
-		server.get("/api/get/byKeyword/*/*/*/*/*/*/*", function (req, res) {
+		
+		server.get("/api/get/byKeyword/*/*/*/*/*/*/*/*/*/*/*/*/*/*", function (req, res) {
 			var kw1 = req.params[0],
 				kw2 = req.params[1],
 				kw3 = req.params[2],
 				kw4 = req.params[3],
 				author = req.params[4],
 				publisher = req.params[5],
-				place = req.params[6];
+				place = req.params[6],
+				language = req.params[7],
+				minYear = req.params[8],	// default!
+				maxYear = req.params[9],	// default!
+				medium = req.params[10],
+				minPages = req.params[11],	// default!
+				maxPages = req.params[12],	// default!
+				bib = req.params[13];
 			res.send({
-				data: getDataByKeyword(kw1, kw2, kw3, kw4, author, publisher, place)
-			});
-		});
-		//for analysis
-		server.get("/api/get/languages", function (req, res) {
-			res.send({
-				languages: getLanguages()
+				kw1: kw1,
+				kw2: kw2,
+				kw3: kw3,
+				kw4: kw4,
+				author: author,
+				publisher: publisher,
+				place: place,
+				language: language,
+				year: minYear + " - " + maxYear,
+				medium: medium,
+				pages: minPages + " - " + maxPages,
+				bib: bib,
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			});
 		});
 		
