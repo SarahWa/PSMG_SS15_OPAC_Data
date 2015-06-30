@@ -4,8 +4,8 @@ var App = {
     
         App.DataFetcher.init();
         App.Controller.init();
-        App.View.init(document.querySelector(".chart"));
-        
+        App.UIView.init();
+		App.ChartView.init(document.querySelector(".chart"));
     }
     
 };

@@ -1,4 +1,4 @@
-App.View = (function(){
+App.ChartView = (function(){
     var that = {},
         chartView,
         margin = {

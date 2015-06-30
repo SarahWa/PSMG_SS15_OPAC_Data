@@ -1,16 +1,17 @@
-.keywords {
-	padding: 0;
-}
 .minMarginTop {
 	margin-top: 15px;
 }
-#createChart {
+
+.minPaddingBottom {
+	padding-bottom: 10px;
+}
+#buttonShowChart {
 	height: 2em;
 	color: black;
 	background-color: #009688;
 }
 
-#createChart:hover {
+#buttonShowChart:hover {
 	color: white;
 }
 
@@ -26,6 +27,7 @@ input.field-half {
 	border-bottom: 2px;
 	border-bottom-color: grey;
 	border-bottom-style: solid;
-	padding: 0 0.5% 0 0.5%;
 }
+
+
 

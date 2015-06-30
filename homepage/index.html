@@ -6,7 +6,8 @@
     <title>OPAC Data</title>
 	<!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+	<!-- Normalize CSS -->
+	<link href="css/normalize.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
@@ -20,24 +21,24 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="#">
+                    <a href="#start">
                         OPAC Daten
                     </a>
                 </li>
                 <li>
-                    <a href="#">eigene Filter</a>
+                    <a href="#filter-options">eigene Filter</a>
                 </li>
                 <li>
-                    <a href="#">Statisch 1</a>
+                    <a href="#static1">Statisch 1</a>
                 </li>
                 <li>
-                    <a href="#">Statisch 2</a>
+                    <a href="#static2">Statisch 2</a>
                 </li>
                 <li>
-                    <a href="#">Statisch 3</a>
+                    <a href="#static3">Statisch 3</a>
                 </li>
                 <li>
-                    <a href="#">Statisch 4</a>
+                    <a href="#static4">Statisch 4</a>
                 </li>
                 <li>
                     <a href="#">Impressum</a>
@@ -49,43 +50,64 @@
         </div>
         <!-- /#sidebar-wrapper -->
     
-			<content>
+			<content id="page-content-wrapper">
 				<div class="container-fluid">
+				<!-- #start -->
+					<div id="start" class="content">
+						<h1>Willkommen!</h1>
+					</div>
+					
+				<!-- #filteroptions -->
 					<!-- has to be a template -->
-					<div class="row inputRow">
-					<div class="col-md-3 keywords minMarginTop">
+					<div id="filter-options" class="hide content"> <!-- hidden at beginning -> show only onclick ownfilter -->
+					<div class="row inputRow minPaddingBottom">
+					<div class="col-md-3 keywords">
 						<input class="field" type="text" placeholder="Stichwort">
 						<input class="field" type="text" placeholder="Stichwort">
 						<input class="field" type="text" placeholder="Stichwort">
 						<input class="field" type="text" placeholder="Stichwort">
 					</div>
-					<div class="col-md-3 minMarginTop">
+					<div class="col-md-3">
 						<input class="field" type="text" placeholder="Autor">
 						<div class="minMarginTop">
 							<input class="field-half" type="number" placeholder="min Jahr">
 							<input class="field-half" type="number" placeholder="max Jahr">
 						</div>
 					</div>
-					<div class="col-md-3 minMarginTop">
+					<div class="col-md-3">
 						<input class="field" type="text" placeholder="Verlag">
 						<div class="minMarginTop">
 							<input class="field-half" type="number" placeholder="min Seiten">
 							<input class="field-half" type="number" placeholder="max Seiten">
 						</div>
 					</div>
-					<div class="col-md-3 minMarginTop">
+					<div class="col-md-3">
 						<input class="field" type="text" placeholder="Verlagsort">
 						<!-- show only if last entry (of #filterInputTemplate)
 							 on click: new template entry -->
-						<input type="image" src="assets/ic_add_circle_outline_black_36dp_2x.png" alt="vergleichen" class="minMarginTop compare"> 
+						<div class="minMarginTop">
+						<button id="button-compare" type="button" class="btn btn-default btn-lg" data-toggle="tooltip" data-placement="right" title="Vergleichen" aria-label="Vergleichen">
+  <span class="glyphicon glyphicon-menu-down minPaddingTop" aria-hidden="true"></span>
+</button></div>
+						
+						<!--<input type="image" src="assets/ic_add_circle_outline_black_36dp_2x.png" alt="vergleichen" class="minMarginTop compare"> -->
 					</div>
 					</div>
 					<!-- template end -->
-				</div>
-				
-			<button class="col-md-3 col-md-offset-9 minMarginTop" id="createChart">Anzeigen</button>
-		
-        <svg class="chart"></svg>
+					<button id="buttonShowChart" type="button" class="col-md-3 col-md-offset-9 minMarginTop" id="createChart">Anzeigen</button>
+					</div>
+					
+				<!-- #static1 -->
+					<div id="static1" class="content hide">juhu 1</div>
+				<!-- #static2 -->
+					<div id="static2" class="content hide">juhu 2</div>
+				<!-- #static3 -->
+					<div id="static3" class="content hide">juhu 3</div>
+				<!-- #static4 -->
+					<div id="static4" class="content hide">juhu 4</div>
+				<!-- chart -->
+					<svg class="chart content hide"></svg>
+				</div>  
     </content>
 	
 	</div>
@@ -95,10 +117,13 @@
 	</footer>
     <script src="libs/d3.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
+	<script src="libs/bootstrap.min.js"></script>
     <script src="src/OpacApp.js"></script>
     <script src="src/Controller.js"></script>
-    <script src="src/View.js"></script>
+    <script src="src/ChartView.js"></script>
+	<script src="src/UIView.js"></script>
     <script src="src/DataFetcher.js"></script>
+	
  
     <script>
     
@@ -106,6 +131,11 @@
     
     
     </script>
+	<script>
+		$(function () {
+  			$('#button-compare').tooltip()
+		});
+	</script>
 	<script id="filterInputTemplate" type="text/template">
 
 	</script>
