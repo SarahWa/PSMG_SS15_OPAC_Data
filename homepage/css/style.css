@@ -29,5 +29,8 @@ input.field-half {
 	border-bottom-style: solid;
 }
 
+#querylist {
+	list-style-type: none;
+}
 
 
