@@ -1,0 +1,227 @@
+<html>
+    <head>
+    
+    
+    
+    </head>
+    <body>
+    
+    <input type="file" id="csv-file" name="files"/>
+        
+    <script src="libs/papaparse.min.js"></script>
+    <script src="libs/jquery-2.1.3.js"></script>
+    <script src="app.js"></script>
+        
+        
+    <script>
+        
+  var data;
+ 
+  function handleFileSelect(evt) {
+    var file = evt.target.files[0];
+ 
+    Papa.parse(file, {
+        delimiter: ",",
+      header: true,
+      dynamicTyping: false,
+      complete: function(results) {
+        data = results;
+          
+          
+          changePages(); 
+          changeSignature();
+          toLowerCase();
+          changeYear();
+          console.log("fertig");
+        
+          var csv = Papa.unparse(data, {
+              delimiter: ",",
+              header: true
+              
+          });
+        console.log(csv);
+        //  console.log(".....");
+      }
+    });
+      
+    
+  }
+        
+        function toLowerCase(){
+            for (var i = 0; i < data.data.length-1; i++) {
+				data.data[i].title = data.data[i].title.toLowerCase();
+				data.data[i].subtitle = data.data[i].subtitle.toLowerCase();
+				data.data[i].tags = data.data[i].tags.toLowerCase();
+				if (data.data[i].language.indexOf("de") >=0) {
+					data.data[i].language = "ger";
+				}
+                
+            }  
+            
+            
+        }
+            
+        
+        function changeSignature(){
+            var currsig,
+                result,
+                realresult,
+                pattern = /[A-Z]?\s?[0-9]+\//g;
+            for(var i=0 ; i<data.data.length-1;i++){
+                realresult="";
+                currsig = data.data[i].signatures;
+                result = currsig.match(pattern);
+                
+                if (result!=null){
+                    for(var j=0; j<result.length;j++){
+                        var sig = result[j].replace("/","");
+                        
+                        if(sig.charAt[0]==" "){
+                            sig = sig.substring(1);
+                        }
+                        
+                        if(sig.charAt(0)=="F"){
+                            result[j] = "Hochschule";    
+                        }
+                        if(sig.charAt(0)=="W"){
+                            result[j] = "Andere Bibliotheken";    
+                        }
+                        
+                        if((sig>=100&&sig<=994)||sig==8710||(sig>=6150&&sig<=6152)||(sig>=7100&&sig<=8941)||(sig>=9100&&sig<=9470)){
+                            result[j] = "Handapparate und andere Standorte";
+                        }
+                        
+                        if(sig==31||sig==38||sig==39||sig==4001){
+                            result[j] = "Lesesaal Recht";   
+                        }
+                        if(sig==40||sig==401){
+                            result[j] = "Lesesaal Wirtschaft";   
+                        }
+                        if((sig>=50&&sig<=54)||(sig>=70&&sig<=78)){
+                            result[j] = "Lesesaal Philosophicum 2";   
+                        }
+                        if((sig>=60&&sig<=69)||sig==6001){
+                            result[j] = "Lesesaal Philosophicum 1";   
+                        }
+                        if(sig==80||sig==8001){
+                            result[j] = "Lesesaal Mathematik";   
+                        }
+                        if(sig==82||sig==84||sig==8401){
+                            result[j] = "Lesesaal Physik";   
+                        }
+                        if(sig==86||sig==8699){
+                            result[j] = "Lesesaal Chemie";   
+                        }
+                        if(sig==88||sig==8801){
+                           result[j] = "Lesesaal Biologie";   
+                        }
+                        if(sig==91||sig==9117||sig==9118||sig==9199){
+                            result[j] = "Lesesaal Medizin";   
+                        }
+                        if(sig==92){
+                            result[j] = "Universitaetsklinikum";   
+                        }
+                        if(sig==95||sig==96){
+                            result[j] = "andere Kliniken";   
+                        }
+                        if(sig==99||sig==9901){
+                            result[j] = "Lesesaal Sport";   
+                        }
+                        if((sig>=0&&sig<=29)||sig==119||sig==1701||sig==284||sig==285||(sig>=290&&sig<=299)||sig==53){
+                            result[j] = "Zentralbibliothek";
+                        }
+                        
+                        if((sig>=9990&&sig<=9998)||sig==999||sig==9980){
+                            result[j] = "Andere Bibliotheken";
+                        }
+                        
+                       
+                        
+    
+                        realresult = realresult+result[j]+", ";
+                    
+                    }
+                    
+                    
+                }
+                data.data[i].signatures = realresult;
+                
+            }
+            
+        }
+        
+        function changeYear() {
+            var currYear,
+                result,
+                realresult,
+                pattern = /\[?[0-9]+\]?[0-9]+\[?[0-9]+\]?/g;
+            for(var i=0 ; i<data.data.length-1;i++){
+                realresult=""; 
+                currPage = data.data[i].publishingyear;
+                result = currPage.match(pattern);
+                
+                
+                if(result!=null){
+                    var minyear =2016;
+                    for(var j=0; j<result.length;j++){
+                        result[j] = result[j].replace("[","");
+                        result[j] = result[j].replace("]","");
+                        if(result[j]<=minyear){
+                            minyear= result[j];
+                        }
+                        realresult = minyear;
+                       
+                        
+                        
+                        
+                    } 
+                    
+                }
+                data.data[i].publishingyear = realresult;
+            } 
+            
+            
+        }
+        
+        function changePages(){
+            var currPage,
+                result,
+                realresult,
+                pattern = /[0-9]+\s[S{1}|p{1}]\./g;
+            for(var i=0 ; i<data.data.length-1;i++){
+                realresult=""; 
+                currPage = data.data[i].pages;
+                
+                result = currPage.match(pattern);
+                
+                if(result!=null){
+                    for(var j=0; j<result.length;j++){
+                        
+                        realresult = realresult+result[j];
+                        realresult = realresult.replace("S.","");
+                        realresult = realresult.replace("p.","");                        
+                        
+                        
+                    } 
+                
+                }
+                data.data[i].pages = realresult;
+            } 
+        }
+ 
+        
+        
+  $(document).ready(function(){
+    $("#csv-file").change(handleFileSelect);
+  });
+    </script>    
+    
+    
+    
+    
+    
+
+        
+        
+    </body>
+</html>
