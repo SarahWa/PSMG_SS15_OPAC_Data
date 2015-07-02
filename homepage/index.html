@@ -58,31 +58,35 @@
 					</div>
 					
 				<!-- #filteroptions -->
-					<!-- has to be a template -->
+					<div id="querylist">
+                        <ul>
+                            
+                        </ul>
+                    </div>
 					<div id="filter-options" class="hide content"> <!-- hidden at beginning -> show only onclick ownfilter -->
 					<div class="row inputRow minPaddingBottom">
 					<div class="col-md-3 keywords">
-						<input class="field" type="text" placeholder="Stichwort">
-						<input class="field" type="text" placeholder="Stichwort">
-						<input class="field" type="text" placeholder="Stichwort">
-						<input class="field" type="text" placeholder="Stichwort">
+						<input id="kw1" class="field" type="text" placeholder="Stichwort">
+						<input id="kw2" class="field" type="text" placeholder="Stichwort">
+						<input id="kw3" class="field" type="text" placeholder="Stichwort">
+						<input id="kw4" class="field" type="text" placeholder="Stichwort">
 					</div>
 					<div class="col-md-3">
-						<input class="field" type="text" placeholder="Autor">
+						<input id="author" class="field" type="text" placeholder="Autor">
 						<div class="minMarginTop">
-							<input class="field-half" type="number" placeholder="min Jahr">
-							<input class="field-half" type="number" placeholder="max Jahr">
+							<input id="yearMin" class="field-half" type="number" placeholder="min Jahr">
+							<input id="yearMax" class="field-half" type="number" placeholder="max Jahr">
 						</div>
 					</div>
 					<div class="col-md-3">
-						<input class="field" type="text" placeholder="Verlag">
+						<input id="publisher" class="field" type="text" placeholder="Verlag">
 						<div class="minMarginTop">
-							<input class="field-half" type="number" placeholder="min Seiten">
-							<input class="field-half" type="number" placeholder="max Seiten">
+							<input id="pagesMin" class="field-half" type="number" placeholder="min Seiten">
+							<input id="pagesMax" class="field-half" type="number" placeholder="max Seiten">
 						</div>
 					</div>
 					<div class="col-md-3">
-						<input class="field" type="text" placeholder="Verlagsort">
+						<input id="place" class="field" type="text" placeholder="Verlagsort">
 						<!-- show only if last entry (of #filterInputTemplate)
 							 on click: new template entry -->
 						<div class="minMarginTop">
@@ -90,10 +94,11 @@
   <span class="glyphicon glyphicon-menu-down minPaddingTop" aria-hidden="true"></span>
 </button></div>
 						
-						<!--<input type="image" src="assets/ic_add_circle_outline_black_36dp_2x.png" alt="vergleichen" class="minMarginTop compare"> -->
 					</div>
 					</div>
-					<!-- template end -->
+                        
+                    
+					
 					<button id="buttonShowChart" type="button" class="col-md-3 col-md-offset-9 minMarginTop" id="createChart">Anzeigen</button>
 					</div>
 					
@@ -115,9 +120,24 @@
 	<footer>
 	
 	</footer>
+    
+    <script id="queryTemplate" type="text/template">
+	    <li class="row">
+            <p class="col-md-2">Stichwort:<%= kw1 %>, <%= kw2 %>, <%= kw3 %>, <%= kw4 %></p>
+            <p class="col-md-2">Author:<%= author %></p>
+            <p class="col-md-2">Verlag:<%= publisher %></p>
+            <p class="col-md-2">Ort:<%= place %></p>
+            <p class="col-md-2">Jahr:<%= yearMin %>-<%= yearMax %></p>
+            <p class="col-md-2">Seitenzahlen:<%= pagesMin %>-<%= pagesMax %></p>
+        </li>
+    </script>
+    
+    
+    
     <script src="libs/d3.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
 	<script src="libs/bootstrap.min.js"></script>
+    <script src="libs/underscore.js"></script>
     <script src="src/OpacApp.js"></script>
     <script src="src/Controller.js"></script>
     <script src="src/ChartView.js"></script>

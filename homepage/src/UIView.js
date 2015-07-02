@@ -1,16 +1,21 @@
 App.UIView = (function(){
 	var that = {},
 		uiView,
+        userInputArray = [],
+        $qerylist,
 		
-	init = function() {
-		_initEvents();
+	init = function(list) {
+		$querylist = list;
+        _initEvents();
+        
 	},
 		
 		
 	_initEvents = function () {
 		$(".sidebar-nav a").on('click', _showPage);
-		$("#buttonShowChart").on('click', showChart);
+		$("#buttonShowChart").on('click', _showChart);
 		$("#button-compare").on('click', _getInput);
+        
 	},
 		
 	_showPage = function (e) {
@@ -25,13 +30,58 @@ App.UIView = (function(){
 	},
 		
 	_getInput = function (e) {
-		// jedes Inputfeld auslesen, oben in template befüllen (existiert noch nicht)
+        var userInput = {
+        
+                kw1: $("#kw1").val(),
+                kw2: $("#kw2").val(),
+                kw3: $("#kw3").val(),
+                kw4: $("#kw4").val(),
+                author: $("#author").val(),
+                publisher: $("#publisher").val(),
+                yearMin: $("#yearMin").val(),
+                yearMax: $("#yearMax").val(),
+                pagesMin: $("#pagesMin").val(),
+                pagesMax: $("#pagesMax").val(),
+                place: $("#place").val()   
+        };
+        
+        $("#kw1").val("");
+        $("#kw2").val("");
+        $("#kw3").val("");
+        $("#kw4").val("");
+        $("#author").val("");
+        $("#publisher").val("");
+        $("#yearMin").val("");
+        $("#yearMax").val("");
+        $("#pagesMin").val("");
+        $("#pagesMax").val("");
+        $("#place").val("");
+        
+        userInputArray.push(userInput);
+        
+        _addQueryToList();
 	},
 	
-	// nicht sicher ob öffentlich notwendig
-	showChart = function (e) {
-		// get inputs and trigger
+	_addQueryToList = function(){
+        for (var i = 0;i<userInputArray.length;i++){
+            $querylist.append(_getContainerForQuery(userInputArray[i]));   
+        }
+    },
+        
+    _getContainerForQuery = function (query){
+        compile = _.template($('#queryTemplate').html());
+            return compile(query);   
+    },
+        
+	_showChart = function (e) {
+        _getInput();
+        console.log(userInputArray);
+        data = {
+            data:userInputArray
+        }
 		$('.chart').removeClass('hide');
+        $('body').trigger('userInputs',data);
+        userInputArray = [];
 	};
 	
 	
@@ -44,7 +94,7 @@ App.UIView = (function(){
 	
 	
 	that.init = init;
-	that.showChart = showChart;
+	
 	
 	return that;
 })();

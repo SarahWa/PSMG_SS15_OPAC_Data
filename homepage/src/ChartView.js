@@ -15,8 +15,6 @@ App.ChartView = (function(){
     
     init = function (newChartView){
         chartView = newChartView;
-        console.log(chartView);
-    
     },
         
         
