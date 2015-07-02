@@ -20,6 +20,11 @@
     var WWW = path.join(__dirname, "./www/");
     var DATA = path.join(__dirname, "./data/");
     var BOOKS = path.join(DATA, "opac_st.csv");
+	
+	/* constants */
+	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "unknown"],
+		MEDIUM = ["ebook", "book", "unknown"],
+		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "unknown"];
 
 	
 	function getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
@@ -50,11 +55,14 @@
 			if (language == "" || data[i].language.indexOf(language)>=0){
 				counter++;
 			}
+			if (language == "unknown" && data[i].language == "") {
+				counter++
+			}
 			// !!! default needed !!!
-			if ((minYear <= data[i].publishingyear && maxYear >= data[i].publishingyear)){
+			if ((minYear <= data[i].publishingyear && maxYear >= data[i].publishingyear) && data[i].publishingyear != ""){
 				counter++;
 			}
-			if (data[i].publishingyear == "" && minYear == 0 && maxYear == 2016) {
+			if (data[i].publishingyear == "" && minYear == 0 && maxYear == 2017) {
 				counter++;
 			}
 			
@@ -68,10 +76,17 @@
 			if (medium == "book" && data[i].signatures != "" ) {
 				counter++;
 			}
-			// one of the 3 above
+			if (medium == "unknown" && data[i].ebook == "" && data[i].signatures == "") {
+				counter++;
+			}
+			// one of the 4 above
 			
 			// !!! default needed !!!
-			if ((minPages <= data[i].pages && maxPages >= data[i].pages) || data[i].pages == "") {
+			if ((minPages <= data[i].pages && maxPages >= data[i].pages)) {
+				counter++;
+			}
+			
+			if (data[i].pages == "" && minPages == 0 && maxPages == 9999) {
 				counter++;
 			}
 			
@@ -79,13 +94,97 @@
 				counter++;
 			}
 			
-			if (counter >= 12) {	
-				resultCounter++;			// it's a match
+			if (bib == "unknown" && data[i].signatures == "") {
+				counter++;
+			}
+			
+			if (counter >= 12) {
+				resultCounter++;	// it's a match
 			}
 			counter = 0;
 			
 		}
 		return resultCounter;
+	}
+	
+	
+	function getMatchesForRequest(request, kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
+		var resultArray = [];
+		
+		if (request == "byKeyword") {
+			return getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib);
+		}
+		
+		if (request == "byLanguage") {
+			for (var i = 0; i < LANGUAGES.length; i++) {	
+			var result = {
+				medium: LANGUAGES[i],
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, LANGUAGES[i], minYear, maxYear, medium, minPages, maxPages, bib)
+			}
+			resultArray.push(result);
+			}
+		return resultArray;
+		}
+		
+		if (request == "byYear") {
+			var step=3;
+			for (var i = 1957; i < 2017; i += step) {	
+				var maxYear = i + step,
+					minYear;
+				if (i == 1957) {
+					minYear = 0;
+				}
+				else {
+					minYear = i;
+				}
+				result = {
+				min: minYear,
+				max: maxYear,
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+			}
+			resultArray.push(result);
+			}
+		return resultArray;
+		}
+		
+		if (request == "byMedium") {
+			for (var i = 0; i < MEDIUM.length; i++) {	
+			var result = {
+				medium: MEDIUM[i],
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, MEDIUM[i], minPages, maxPages, bib)
+			}
+			resultArray.push(result);
+			}
+		return resultArray;
+		}
+		
+		if (request == "byPages") {
+			var step=50;
+			for (var minPages = 0; minPages <= 1500; minPages += step) {	
+				var maxPages = minPages + step;
+				if (minPages == 1500) {
+					maxPages = 3500;
+				}
+				result = {
+				min: minPages,
+				max: maxPages,
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+			}
+			resultArray.push(result);
+			}
+		return resultArray;
+		}
+		
+		if (request == "byBib") {
+			for (var i = 0; i < BIB.length; i++) {	
+				var result = {
+				bib: BIB[i],
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, BIB[i])
+				}
+				resultArray.push(result);
+			}
+			return resultArray;
+		}
 	}
 	
 	function keywordSearch(keyword, data) {
@@ -116,6 +215,8 @@
         });
         fileStream.pipe(csvConverter);
     }
+	
+
 
     /**
      * starts serving a static web site from ./www
@@ -123,23 +224,26 @@
      */
     function start() {
         server.use(cors());
-		
-		server.get("/api/get/byKeyword/*/*/*/*/*/*/*/*/*/*/*/*/*/*", function (req, res) {
-			var kw1 = req.params[0],
-				kw2 = req.params[1],
-				kw3 = req.params[2],
-				kw4 = req.params[3],
-				author = req.params[4],
-				publisher = req.params[5],
-				place = req.params[6],
-				language = req.params[7],
-				minYear = req.params[8],	// default!
-				maxYear = req.params[9],	// default!
-				medium = req.params[10],
-				minPages = req.params[11],	// default!
-				maxPages = req.params[12],	// default!
-				bib = req.params[13];
+		// ersten parameter als byKeyword/byYear/byBib/byPages/byMedium -> in eine Methode -> if(by...) -> getMatches
+		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*",
+			function (req, res) {
+			var request = req.params[0],
+				kw1 = req.params[1],
+				kw2 = req.params[2],
+				kw3 = req.params[3],
+				kw4 = req.params[4],
+				author = req.params[5],
+				publisher = req.params[6],
+				place = req.params[7],
+				language = req.params[8],
+				minYear = req.params[9],	// default!
+				maxYear = req.params[10],	// default!
+				medium = req.params[11],
+				minPages = req.params[12],	// default!
+				maxPages = req.params[13],	// default!
+				bib = req.params[14];
 			res.send({
+				req: request,
 				kw1: kw1,
 				kw2: kw2,
 				kw3: kw3,
@@ -152,7 +256,7 @@
 				medium: medium,
 				pages: minPages + " - " + maxPages,
 				bib: bib,
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getMatchesForRequest(request, kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			});
 		});
 		
