@@ -22,6 +22,8 @@ App.UIView = (function(){
 		e.preventDefault();
    		$('.content').addClass('hide'); // hides all content divs
    		$( $(this).attr('href') ).removeClass('hide');
+        userInputArray = [];
+        _addQueryToList();
 	//get the href and use it find which div to show
 	console.log($(this).attr('href'));
 	// if href="#static1" -> trigger -> get data -> show
@@ -57,12 +59,15 @@ App.UIView = (function(){
         $("#pagesMax").val("");
         $("#place").val("");
         
+       
         userInputArray.push(userInput);
-        
         _addQueryToList();
+        
 	},
 	
 	_addQueryToList = function(){
+        $querylist.empty();
+        
         for (var i = 0;i<userInputArray.length;i++){
             $querylist.append(_getContainerForQuery(userInputArray[i]));   
         }
@@ -74,7 +79,19 @@ App.UIView = (function(){
     },
         
 	_showChart = function (e) {
-        _getInput();
+        var counter = 0;
+        
+        $('#inputs').find('input').each(function() {
+            if($(this).val() != ""){
+                counter++;
+            }
+        });
+        
+        if (counter>=1||userInputArray.length<1){
+            _getInput();
+            
+        }
+        $("#filter-options").addClass("hide");
         console.log(userInputArray);
         data = {
             data:userInputArray

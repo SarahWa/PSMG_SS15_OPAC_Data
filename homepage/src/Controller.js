@@ -26,12 +26,12 @@ App.Controller = (function(){
     },
         
     _handleServerResponse = function(event, data){
-        console.log(data);
-        chartView.renderChart(data);
+        console.log("server",data);
+      //  chartView.renderChart(data);
     },
         
     _handleUserInputs = function(event, data){
-        
+            console.log("inputcontroller",data);
          dataFetcher.getData(data);  
     };
     
