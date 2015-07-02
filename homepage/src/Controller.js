@@ -12,7 +12,7 @@ App.Controller = (function(){
         
         dataFetcher.init();
         uIView.init($("#querylist"));
-        chartView.init($(".chart"));
+        chartView.init();
         
         _initEvents();
         
@@ -27,7 +27,7 @@ App.Controller = (function(){
         
     _handleServerResponse = function(event, data){
         console.log("server",data);
-      //  chartView.renderChart(data);
+      	chartView.renderChart(data);
     },
         
     _handleUserInputs = function(event, data){

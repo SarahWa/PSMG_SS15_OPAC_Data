@@ -23,6 +23,7 @@ App.UIView = (function(){
    		$('.content').addClass('hide'); // hides all content divs
    		$( $(this).attr('href') ).removeClass('hide');
         userInputArray = [];
+		$(".chart").empty();
         _addQueryToList();
 	//get the href and use it find which div to show
 	console.log($(this).attr('href'));
@@ -59,7 +60,19 @@ App.UIView = (function(){
         $("#pagesMax").val("");
         $("#place").val("");
         
-       
+       	if(userInput.yearMin =="") {
+		   userInput.yearMin = 0;
+	   	}
+		if(userInput.yearMax =="") {
+		   userInput.yearMax = 2017;
+	   	}
+		if(userInput.pagesMin =="") {
+		   userInput.pagesMin = 0;
+	   	}
+		if(userInput.pagesMax =="") {
+		   userInput.pagesMax = 9999;
+	   	}
+
         userInputArray.push(userInput);
         _addQueryToList();
         
@@ -96,7 +109,6 @@ App.UIView = (function(){
         data = {
             data:userInputArray
         }
-		$('.chart').removeClass('hide');
         $('body').trigger('userInputs',data);
         userInputArray = [];
 	};

@@ -111,7 +111,14 @@
 				<!-- #static4 -->
 					<div id="static4" class="content hide">juhu 4</div>
 				<!-- chart -->
-					<svg class="chart content hide"></svg>
+					<div id="chartWrapper" class="row content hide">
+					<div id="chartContainer" class="col-md-10">
+						<svg class="chart"></svg>
+					</div>
+					<div id="requestselector" class="col-md-2">
+							<!-- dropdown menue-->
+					</div>
+					</div>
 				</div>  
     </content>
 	
@@ -123,7 +130,7 @@
     
     <script id="queryTemplate" type="text/template">
 	    <li class="row">
-            <p class="col-md-2">Stichwort:<%= kw1 %>, <%= kw2 %>, <%= kw3 %>, <%= kw4 %></p>
+            <p class="col-md-2">Stichwort:<%= kw1 %> <%= kw2 %> <%= kw3 %> <%= kw4 %></p>
             <p class="col-md-2">Author:<%= author %></p>
             <p class="col-md-2">Verlag:<%= publisher %></p>
             <p class="col-md-2">Ort:<%= place %></p>
