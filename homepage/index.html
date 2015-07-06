@@ -111,12 +111,24 @@
 				<!-- #static4 -->
 					<div id="static4" class="content hide">juhu 4</div>
 				<!-- chart -->
-					<div id="chartWrapper" class="row content hide">
+					<div id="chartWrapper" class="row content">
 					<div id="chartContainer" class="col-md-10">
 						<svg class="chart"></svg>
 					</div>
 					<div id="requestselector" class="col-md-2">
-							<!-- dropdown menue-->
+							<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    x-Achse
+    <span class="caret"></span>
+  </button>
+  <ul id="x-axis-drowdown" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="byBib">Bibliotheken</a></li>
+    <li><a href="byPages">Seitenzahl</a></li>
+    <li><a href="byMedium">Medium</a></li>
+	<li><a href="byLanguage">Sprache</a></li>
+	<li><a href="byYear">Erscheinungsjahr</a></li>
+  </ul>
+</div>
 					</div>
 					</div>
 				</div>  
@@ -141,10 +153,10 @@
     
     
     
-    <script src="libs/d3.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
 	<script src="libs/bootstrap.min.js"></script>
     <script src="libs/underscore.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="src/OpacApp.js"></script>
     <script src="src/Controller.js"></script>
     <script src="src/ChartView.js"></script>

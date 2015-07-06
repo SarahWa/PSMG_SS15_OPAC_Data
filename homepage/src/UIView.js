@@ -2,10 +2,10 @@ App.UIView = (function(){
 	var that = {},
 		uiView,
         userInputArray = [],
-        $qerylist,
+        querylist,
 		
 	init = function(list) {
-		$querylist = list;
+		querylist = list;
         _initEvents();
         
 	},
@@ -15,7 +15,7 @@ App.UIView = (function(){
 		$(".sidebar-nav a").on('click', _showPage);
 		$("#buttonShowChart").on('click', _showChart);
 		$("#button-compare").on('click', _getInput);
-        
+		$('#x-axis-drowdown li').on('click', _showChart);
 	},
 		
 	_showPage = function (e) {
@@ -27,14 +27,36 @@ App.UIView = (function(){
         _addQueryToList();
 	//get the href and use it find which div to show
 	console.log($(this).attr('href'));
-	// if href="#static1" -> trigger -> get data -> show
-	// if href="#static2" -> trigger -> get data -> show
+	// if href="#static1" -> _showChart()
+	// if href="#static2" -> _showChart()
 			
 	},
 		
-	_getInput = function (e) {
-        var userInput = {
-        
+	_getInput = function (request) {
+        // e aufbereiten zu byKeyword, ...
+		
+		var userInput,
+			req;
+			if (request == "Anzeigen") {
+				req = "byKeyword";
+			}			
+			if (request == "Medium") {
+				req = "byMedium";
+			}
+			if (request == "Bibliothek") {
+				req = "byBib";
+			}
+			if (request == "Seitenzahl") {
+				req = "byPages";
+			}
+			if (request == "Sprache") {
+				req = "byLanguage";
+			}
+			if (request == "Erscheinungsjahr") {
+				req = "byYear";
+			}
+			userInput = {
+				req: req,
                 kw1: $("#kw1").val(),
                 kw2: $("#kw2").val(),
                 kw3: $("#kw3").val(),
@@ -79,10 +101,10 @@ App.UIView = (function(){
 	},
 	
 	_addQueryToList = function(){
-        $querylist.empty();
+        querylist.empty();
         
         for (var i = 0;i<userInputArray.length;i++){
-            $querylist.append(_getContainerForQuery(userInputArray[i]));   
+            querylist.append(_getContainerForQuery(userInputArray[i]));   
         }
     },
         
@@ -90,23 +112,27 @@ App.UIView = (function(){
         compile = _.template($('#queryTemplate').html());
             return compile(query);   
     },
-        
+      
+	// nicht e übergeben sondern nur text des feldes
 	_showChart = function (e) {
         var counter = 0;
-        
-        $('#inputs').find('input').each(function() {
+        e.preventDefault();
+		$('#inputs').find('input').each(function() {
             if($(this).val() != ""){
                 counter++;
             }
         });
         
         if (counter>=1||userInputArray.length<1){
-            _getInput();
+            _getInput($(this).text());
             
         }
         $("#filter-options").addClass("hide");
         console.log(userInputArray);
-        data = {
+        // art des requests muss in data gespeichert werden um url richtig zusammenzusetzen
+		console.log("target", $(this).attr('href'));
+		console.log("target-text", $(this).text());
+		data = {
             data:userInputArray
         }
         $('body').trigger('userInputs',data);
