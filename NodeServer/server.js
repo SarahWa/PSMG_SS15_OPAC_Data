@@ -111,14 +111,20 @@
 	function getMatchesForRequest(request, kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
 		var resultArray = [];
 		
-		if (request == "byKeyword") {
-			return getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib);
+		if (request == "Stichwort") {
+			var result = {
+				// evtl noch ändern
+				name: "",
+				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+			}
+			resultArray.push(result);
+			return resultArray;
 		}
 		
-		if (request == "byLanguage") {
+		if (request == "Sprache") {
 			for (var i = 0; i < LANGUAGES.length; i++) {	
 			var result = {
-				medium: LANGUAGES[i],
+				name: LANGUAGES[i],
 				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, LANGUAGES[i], minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
@@ -126,20 +132,19 @@
 		return resultArray;
 		}
 		
-		if (request == "byYear") {
-			var step=3;
-			for (var i = 1957; i < 2017; i += step) {	
-				var maxYear = i + step,
-					minYear;
-				if (i == 1957) {
+		if (request == "Erscheinungsjahr") {
+			var step=1;
+			for (var i = 1940; i < 2017; i += step) {	
+				var maxYear = i,
+					minYear = i;
+				/*if (i == 1957) {
 					minYear = 0;
 				}
 				else {
 					minYear = i;
-				}
+				}*/
 				result = {
-				min: minYear,
-				max: maxYear,
+				name: ""+minYear,
 				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
@@ -147,10 +152,10 @@
 		return resultArray;
 		}
 		
-		if (request == "byMedium") {
+		if (request == "Medium") {
 			for (var i = 0; i < MEDIUM.length; i++) {	
 			var result = {
-				medium: MEDIUM[i],
+				name: MEDIUM[i],
 				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, MEDIUM[i], minPages, maxPages, bib)
 			}
 			resultArray.push(result);
@@ -158,7 +163,7 @@
 		return resultArray;
 		}
 		
-		if (request == "byPages") {
+		if (request == "Seitenzahl") {
 			var step=50;
 			for (var minPages = 0; minPages <= 1500; minPages += step) {	
 				var maxPages = minPages + step;
@@ -166,8 +171,7 @@
 					maxPages = 3500;
 				}
 				result = {
-				min: minPages,
-				max: maxPages,
+				name: minPages+"-"+maxPages,
 				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
@@ -175,10 +179,10 @@
 		return resultArray;
 		}
 		
-		if (request == "byBib") {
+		if (request == "Bibliotheken") {
 			for (var i = 0; i < BIB.length; i++) {	
 				var result = {
-				bib: BIB[i],
+				name: BIB[i],
 				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, BIB[i])
 				}
 				resultArray.push(result);

@@ -5,7 +5,7 @@ App.DataFetcher = (function(){
     
     
     init = function (){
-        var input= [{req: "byBib", kw1: "", kw2: "", kw3: "", kw4: "", author: "", publisher: "", yearMin: "", yearMax: "", pagesMin: "", pagesMax: "", place: ""}],
+        var input= [{req: "Bibliotheken", kw1: "", kw2: "", kw3: "", kw4: "", author: "", publisher: "", yearMin: "", yearMax: "", pagesMin: "", pagesMax: "", place: ""}],
 			data = {
 				data: input
 			};
@@ -40,7 +40,7 @@ App.DataFetcher = (function(){
             
             
             url = "http://localhost:3333/api/get/"+data.data[i].req+"/"+data.data[i].kw1+"/"+data.data[i].kw2+"/"+data.data[i].kw3+"/"+data.data[i].kw4+"/"+data.data[i].author+"/"+data.data[i].publisher+"/"+data.data[i].place+"//"+minYear+"/"+maxYear+"//"+minPage+"/"+maxPage+"/";
-        
+        	console.log("URL", url);
             $.ajax({
                 url: url,
                 type: "GET",

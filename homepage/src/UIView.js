@@ -15,7 +15,7 @@ App.UIView = (function(){
 		$(".sidebar-nav a").on('click', _showPage);
 		$("#buttonShowChart").on('click', _showChart);
 		$("#button-compare").on('click', _getInput);
-		$('#x-axis-drowdown li').on('click', _showChart);
+		$('#x-axis-drowdown li').on('click', _changeChart);
 	},
 		
 	_showPage = function (e) {
@@ -26,37 +26,19 @@ App.UIView = (function(){
 		$(".chart").empty();
         _addQueryToList();
 	//get the href and use it find which div to show
-	console.log($(this).attr('href'));
 	// if href="#static1" -> _showChart()
 	// if href="#static2" -> _showChart()
 			
 	},
 		
-	_getInput = function (request) {
-        // e aufbereiten zu byKeyword, ...
 		
-		var userInput,
-			req;
-			if (request == "Anzeigen") {
-				req = "byKeyword";
-			}			
-			if (request == "Medium") {
-				req = "byMedium";
-			}
-			if (request == "Bibliothek") {
-				req = "byBib";
-			}
-			if (request == "Seitenzahl") {
-				req = "byPages";
-			}
-			if (request == "Sprache") {
-				req = "byLanguage";
-			}
-			if (request == "Erscheinungsjahr") {
-				req = "byYear";
-			}
+	_getInput = function (request) {
+		var userInput;
+		if (request == "Anzeigen") {
+			request = "Stichwort"
+		}
 			userInput = {
-				req: req,
+				req: request,
                 kw1: $("#kw1").val(),
                 kw2: $("#kw2").val(),
                 kw3: $("#kw3").val(),
@@ -97,7 +79,6 @@ App.UIView = (function(){
 
         userInputArray.push(userInput);
         _addQueryToList();
-        
 	},
 	
 	_addQueryToList = function(){
@@ -112,11 +93,41 @@ App.UIView = (function(){
         compile = _.template($('#queryTemplate').html());
             return compile(query);   
     },
+		
+	_changeChart = function (e) {
+		var request = $(this).text(),
+			input;
+		if (userInputArray.length <1) {
+			input = {req: request,
+                kw1: "",
+                kw2: "",
+                kw3: "",
+                kw4: "",
+                author: "",
+                publisher: "",
+                yearMin: 0,
+                yearMax: 2017,
+                pagesMin: 0,
+                pagesMax: 9999,
+                place: ""
+			}
+			userInputArray.push(input);
+		}
+		for (var i = 0; i < userInputArray.length; i++) {
+			userInputArray[i].req = request;
+		}
+		data = {
+            data:userInputArray
+        }
+		$('body').trigger('userInputs',data);
+	},
       
 	// nicht e übergeben sondern nur text des feldes
 	_showChart = function (e) {
         var counter = 0;
         e.preventDefault();
+		$('#chartWrapper').removeClass('hide');
+		
 		$('#inputs').find('input').each(function() {
             if($(this).val() != ""){
                 counter++;
@@ -124,19 +135,17 @@ App.UIView = (function(){
         });
         
         if (counter>=1||userInputArray.length<1){
-            _getInput($(this).text());
-            
+            _getInput($(this).text()); 
         }
+		for (var i = 0; i < userInputArray.length; i++) {
+			userInputArray[i].req = "Stichwort";
+		}
         $("#filter-options").addClass("hide");
-        console.log(userInputArray);
-        // art des requests muss in data gespeichert werden um url richtig zusammenzusetzen
-		console.log("target", $(this).attr('href'));
-		console.log("target-text", $(this).text());
 		data = {
             data:userInputArray
         }
         $('body').trigger('userInputs',data);
-        userInputArray = [];
+        //userInputArray = [];
 	};
 	
 	
