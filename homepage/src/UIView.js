@@ -5,7 +5,7 @@ App.UIView = (function(){
         querylist,
 		selectedMedium,
 		selectedLanguage,
-		request = "Bibliotheken",
+		request ="Bibliotheken",
 		
 	init = function(list) {
 		$('#button-compare').tooltip();
@@ -20,7 +20,7 @@ App.UIView = (function(){
 		$(".sidebar-nav a").on('click', _showPage);
 		$("#buttonShowChart").on('click', _showChart);
 		$("#button-compare").on('click', _getInput);
-		$('#x-axis-drowdown li').on('click', _changeChart);
+		$('#x-axis-drowdown li').on('click', _getChartByXAxisCall);
 		$('#language-dropdown li').on('click', _updateLanguage);
 		$('#medium-dropdown li').on('click', _updateMedium);
 		$('#button-show-filter').on('click', _showFilterOptions);
@@ -49,8 +49,13 @@ App.UIView = (function(){
         userInputArray = [];
         _addQueryToList();
 		if ($(this).attr('href')=="#start") {
-			// request = "Bibliotheken"
+			request = "Bibliotheken";
+			_changeChart();
 		}
+		if ($(this).attr('href') == "#static1") {
+			_showStatic1Chart();
+		}
+		
 	//get the href and use it find which div to show
 	// if href="#static1" -> _showChart()
 	// if href="#static2" -> _showChart()
@@ -119,9 +124,13 @@ App.UIView = (function(){
             return compile(query);   
     },
 		
-	_changeChart = function (e) {
-		var request = $(this).text(),
-			input;
+	_getChartByXAxisCall = function(e) {
+		request = $(this).text();
+		_changeChart();
+	},
+		
+	_changeChart = function () {
+		var input;
 		if (userInputArray.length <1) {
 			input = {req: request,
                 kw1: "",
@@ -146,8 +155,39 @@ App.UIView = (function(){
         }
 		$('body').trigger('userInputs',data);
 	},
+		
+	_showStatic1Chart = function () {
+		var input1 =_createInput("Erscheinungsjahr", "html5", 1994),
+			input2 = _createInput("Erscheinungsjahr", "html", 1994),
+			input3 = _createInput("Erscheinungsjahr", "css", 1994)
+		userInputArray.push(input1);
+		userInputArray.push(input2);
+		userInputArray.push(input3);
+		
+		data = {
+			data:userInputArray
+		}
+		$('body').trigger('userInputs',data);
+		_addQueryToList();
+	},
+		
+	_createInput = function (req, kw1, minyear) {
+		var input = {req: req,
+                kw1: kw1,
+                kw2: "",
+                author: "",
+                publisher: "",
+                yearMin: minyear,
+                yearMax: 2017,
+                pagesMin: 0,
+                pagesMax: 9999,
+                place: "",
+				language: "",
+				medium: ""
+			}
+		return input;
+	}
       
-	// nicht e übergeben sondern nur text des feldes
 	_showChart = function (e) {
         var counter = 0;
         e.preventDefault();

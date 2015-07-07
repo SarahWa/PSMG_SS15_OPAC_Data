@@ -127,19 +127,14 @@
 		}
 		
 		if (request == "Erscheinungsjahr") {
-			var step=1;
-			for (var i = 1940; i < 2017; i += step) {	
-				var maxYear = i,
-					minYear = i;
-				/*if (i == 1957) {
-					minYear = 0;
-				}
-				else {
-					minYear = i;
-				}*/
+			var maximumYear = 0,
+				minimumYear = 0;
+			for (var i = minYear; i < maxYear; i++) {	
+				maximumYear = i;
+				minimumYear = i;
 				result = {
-				name: ""+minYear,
-				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				name: ""+minimumYear,
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minimumYear, maximumYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			}
