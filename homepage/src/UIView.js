@@ -8,6 +8,7 @@ App.UIView = (function(){
 		request = "Bibliotheken",
 		
 	init = function(list) {
+		$('#button-compare').tooltip();
 		querylist = list;
         _initEvents();
         selectedMedium = "";
@@ -44,6 +45,7 @@ App.UIView = (function(){
 		e.preventDefault();
    		$('.content').addClass('hide'); // hides all content divs
    		$( $(this).attr('href')).removeClass('hide');
+		$("html, body").animate({ scrollTop: 0 }, "slow");
         userInputArray = [];
         _addQueryToList();
 		if ($(this).attr('href')=="#start") {
@@ -160,9 +162,11 @@ App.UIView = (function(){
         if (counter>=1||userInputArray.length<1){
             _getInput($(this).text()); 
         }
+
 		for (var i = 0; i < userInputArray.length; i++) {
-			userInputArray[i].req = "Stichwort";
+				userInputArray[i].req = request;
 		}
+		
         $("#filter-options").addClass("hide");
 		$("#button-show-filter").removeClass("hide");
 		data = {
