@@ -8,7 +8,7 @@
 #buttonShowChart {
 	height: 2em;
 	color: black;
-	background-color: #009688;
+	background-color: #99CCFF;
 }
 
 #buttonShowChart:hover {
@@ -38,4 +38,7 @@ input.field {
 	padding-left: 0;
 }
 
+h1 {
+	text-align: center;
+}
 

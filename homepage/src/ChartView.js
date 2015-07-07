@@ -3,6 +3,7 @@ App.ChartView = (function(){
        	chartData,
 		options,
 		chart,
+        colorArrayBars = ["#3366cc","#3366cc","#dc3912","#dc3912","#ff9900","#ff9900","#109618","#109618","#990099","#990099","#0099c6","#0099c6","#dd4477","#dd4477"],
     
     init = function (){
 		google.load('visualization', '1.0', {'packages':['corechart', 'bar']});
@@ -14,7 +15,7 @@ App.ChartView = (function(){
 	_renderSingleChart = function(data) {
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
-		chartData.addColumn('number', data.data[0].req);
+		chartData.addColumn('number', "Anzahl");
 		
 		for (var i = 0; i< data.data[0].num.length; i++) {
 			chartData.addRow([data.data[0].num[i].name, data.data[0].num[i].num]);
@@ -26,7 +27,10 @@ App.ChartView = (function(){
 			},
 			vAxis: {
 				title: "Anzahl"
-			}
+			},
+            legend: {
+                position: 'none'
+            }
 		};
 		console.log("Data", chartData);
 		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
@@ -59,7 +63,7 @@ App.ChartView = (function(){
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
 		for (var i = 0; i < data.data.length; i++) {
-			chartData.addColumn('number', data.data[0].req);
+			chartData.addColumn('number', "Anzahl");
 			console.log(i);
 		}
 		for (var i = 0; i< data.data[0].num.length; i++) {
@@ -79,13 +83,22 @@ App.ChartView = (function(){
 			},
 			vAxis: {
 				title: "Anzahl"
-			}
+			},
+            legend: {
+                position: 'none'
+            }
 		};
 		console.log("Data", chartData);
 		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
 		chart.draw(chartData, options);
 		
 	},
+    
+    _fillQueryBackground = function (){
+        $('li.template').each(function (i){
+            $(this).css({"background":colorArrayBars[i]});
+        });
+    },
         
         
     renderChart = function(data)   {//visualisieren mit google chart
@@ -95,6 +108,7 @@ App.ChartView = (function(){
 		else {
 			_renderComparedChart(data);
 		}
+        _fillQueryBackground();
 		
     };
     
