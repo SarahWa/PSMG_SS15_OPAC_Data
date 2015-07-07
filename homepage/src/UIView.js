@@ -38,15 +38,15 @@ App.UIView = (function(){
 		}
 			userInput = {
 				req: request,
-                kw1: $("#kw1").val(),
-                kw2: $("#kw2").val(),
-                author: $("#author").val(),
-                publisher: $("#publisher").val(),
+                kw1: $("#kw1").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
+                kw2: $("#kw2").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
+                author: $("#author").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
+                publisher: $("#publisher").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
                 yearMin: $("#yearMin").val(),
                 yearMax: $("#yearMax").val(),
                 pagesMin: $("#pagesMin").val(),
                 pagesMax: $("#pagesMax").val(),
-                place: $("#place").val()   
+                place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue")   
         };
         
         $("#kw1").val("");

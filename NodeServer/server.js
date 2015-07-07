@@ -189,7 +189,6 @@
 		if (keyword == "") {
 			return true;
 		}
-		keyword = keyword.toLowerCase();
 		if (data.title.indexOf(keyword) >= 0 || data.subtitle.indexOf(keyword)>=0 || data.tags.indexOf(keyword) >=0) {
 			return true;
 		}
