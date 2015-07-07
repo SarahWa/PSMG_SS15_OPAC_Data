@@ -15,11 +15,15 @@
 	color: white;
 }
 
+#filter-options {
+	height: auto;
+}
+
 input.field {
 	width: 100%;
 }
 
-input.field-half {
+.field-half {
 	width: 49%;
 }
 
@@ -32,36 +36,6 @@ input.field-half {
 #querylist {
 	list-style-type: none;
 	padding-left: 0;
-}
-
-
-.chart {
-	display: block;
-	margin: 30px 30px 40px 40px;
-}
-
-.bar {
-    fill: rgb(124, 114, 191);
-}
-
-.bar:hover {
-    cursor: pointer;
-    fill: rgb(134, 191, 114);
-}
-
-.axis text {
-    font-size: 10px;
-}
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #333;
-    shape-rendering: crispEdges;
-}
-
-.x.axis path {
-    display: none;
 }
 
 

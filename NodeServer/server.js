@@ -27,7 +27,7 @@
 		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "unknown"];
 
 	
-	function getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
+	function getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
 		var resultCounter = 0,
 			counter = 0;
 		for (var i = 0; i< data.length; i++) {
@@ -35,12 +35,6 @@
 				counter++;
 			}
 			if (keywordSearch(kw2, data[i])) {
-				counter++;
-			}
-			if (keywordSearch(kw3, data[i])) {
-				counter++;
-			}
-			if (keywordSearch(kw4, data[i])) {
 				counter++;
 			}
 			if (author == "" || data[i].author.indexOf(author)>=0) {
@@ -98,7 +92,7 @@
 				counter++;
 			}
 			
-			if (counter >= 12) {
+			if (counter >= 10) {
 				resultCounter++;	// it's a match
 			}
 			counter = 0;
@@ -108,14 +102,14 @@
 	}
 	
 	
-	function getMatchesForRequest(request, kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
+	function getMatchesForRequest(request, kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
 		var resultArray = [];
 		
 		if (request == "Stichwort") {
 			var result = {
 				// evtl noch ändern
 				name: "",
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			return resultArray;
@@ -125,7 +119,7 @@
 			for (var i = 0; i < LANGUAGES.length; i++) {	
 			var result = {
 				name: LANGUAGES[i],
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, LANGUAGES[i], minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, LANGUAGES[i], minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			}
@@ -145,7 +139,7 @@
 				}*/
 				result = {
 				name: ""+minYear,
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			}
@@ -156,7 +150,7 @@
 			for (var i = 0; i < MEDIUM.length; i++) {	
 			var result = {
 				name: MEDIUM[i],
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, MEDIUM[i], minPages, maxPages, bib)
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, MEDIUM[i], minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			}
@@ -172,7 +166,7 @@
 				}
 				result = {
 				name: minPages+"-"+maxPages,
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}
 			resultArray.push(result);
 			}
@@ -183,7 +177,7 @@
 			for (var i = 0; i < BIB.length; i++) {	
 				var result = {
 				name: BIB[i],
-				num: getNumberOfMatches(kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, BIB[i])
+				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, BIB[i])
 				}
 				resultArray.push(result);
 			}
@@ -229,29 +223,25 @@
     function start() {
         server.use(cors());
 		// ersten parameter als byKeyword/byYear/byBib/byPages/byMedium -> in eine Methode -> if(by...) -> getMatches
-		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*",
+		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*",
 			function (req, res) {
 			var request = req.params[0],
 				kw1 = req.params[1],
 				kw2 = req.params[2],
-				kw3 = req.params[3],
-				kw4 = req.params[4],
-				author = req.params[5],
-				publisher = req.params[6],
-				place = req.params[7],
-				language = req.params[8],
-				minYear = req.params[9],	// default!
-				maxYear = req.params[10],	// default!
-				medium = req.params[11],
-				minPages = req.params[12],	// default!
-				maxPages = req.params[13],	// default!
-				bib = req.params[14];
+				author = req.params[3],
+				publisher = req.params[4],
+				place = req.params[5],
+				language = req.params[6],
+				minYear = req.params[7],	// default!
+				maxYear = req.params[8],	// default!
+				medium = req.params[9],
+				minPages = req.params[10],	// default!
+				maxPages = req.params[11],	// default!
+				bib = req.params[12];
 			res.send({
 				req: request,
 				kw1: kw1,
 				kw2: kw2,
-				kw3: kw3,
-				kw4: kw4,
 				author: author,
 				publisher: publisher,
 				place: place,
@@ -260,7 +250,7 @@
 				medium: medium,
 				pages: minPages + " - " + maxPages,
 				bib: bib,
-				num: getMatchesForRequest(request, kw1, kw2, kw3, kw4, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+				num: getMatchesForRequest(request, kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			});
 		});
 		

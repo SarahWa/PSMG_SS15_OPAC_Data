@@ -31,7 +31,7 @@ App.Controller = (function(){
     },
         
     _handleUserInputs = function(event, data){
-            console.log("inputcontroller",data);
+         console.log("inputcontroller",data);
          dataFetcher.getData(data);  
     };
     

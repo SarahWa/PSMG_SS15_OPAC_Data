@@ -21,9 +21,8 @@ App.UIView = (function(){
 	_showPage = function (e) {
 		e.preventDefault();
    		$('.content').addClass('hide'); // hides all content divs
-   		$( $(this).attr('href') ).removeClass('hide');
+   		$( $(this).attr('href')).removeClass('hide');
         userInputArray = [];
-		$(".chart").empty();
         _addQueryToList();
 	//get the href and use it find which div to show
 	// if href="#static1" -> _showChart()
@@ -41,8 +40,6 @@ App.UIView = (function(){
 				req: request,
                 kw1: $("#kw1").val(),
                 kw2: $("#kw2").val(),
-                kw3: $("#kw3").val(),
-                kw4: $("#kw4").val(),
                 author: $("#author").val(),
                 publisher: $("#publisher").val(),
                 yearMin: $("#yearMin").val(),
@@ -54,8 +51,6 @@ App.UIView = (function(){
         
         $("#kw1").val("");
         $("#kw2").val("");
-        $("#kw3").val("");
-        $("#kw4").val("");
         $("#author").val("");
         $("#publisher").val("");
         $("#yearMin").val("");
@@ -101,8 +96,6 @@ App.UIView = (function(){
 			input = {req: request,
                 kw1: "",
                 kw2: "",
-                kw3: "",
-                kw4: "",
                 author: "",
                 publisher: "",
                 yearMin: 0,
