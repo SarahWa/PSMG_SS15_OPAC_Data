@@ -5,6 +5,7 @@ App.UIView = (function(){
         querylist,
 		selectedMedium,
 		selectedLanguage,
+		request = "Bibliotheken",
 		
 	init = function(list) {
 		querylist = list;
@@ -21,14 +22,22 @@ App.UIView = (function(){
 		$('#x-axis-drowdown li').on('click', _changeChart);
 		$('#language-dropdown li').on('click', _updateLanguage);
 		$('#medium-dropdown li').on('click', _updateMedium);
+		$('#button-show-filter').on('click', _showFilterOptions);
+	},
+		
+	_showFilterOptions = function (e) {
+		$(this).addClass('hide');
+		$('#filter-options').removeClass('hide');
 	},
 		
 	_updateMedium = function (e) {
 		selectedMedium = $(this).text();
+		console.log(selectedMedium);
 	},
 		
 	_updateLanguage = function (e) {
 		selectedLanguage = $(this).text();
+		console.log(selectedLanguage);
 	},
 		
 	_showPage = function (e) {
@@ -37,6 +46,9 @@ App.UIView = (function(){
    		$( $(this).attr('href')).removeClass('hide');
         userInputArray = [];
         _addQueryToList();
+		if ($(this).attr('href')=="#start") {
+			// request = "Bibliotheken"
+		}
 	//get the href and use it find which div to show
 	// if href="#static1" -> _showChart()
 	// if href="#static2" -> _showChart()
@@ -46,9 +58,6 @@ App.UIView = (function(){
 		
 	_getInput = function (request) {
 		var userInput;
-		if (request == "Anzeigen") {
-			request = "Stichwort"
-		}
 			userInput = {
 				req: request,
                 kw1: $("#kw1").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
@@ -60,8 +69,8 @@ App.UIView = (function(){
                 pagesMin: $("#pagesMin").val(),
                 pagesMax: $("#pagesMax").val(),
                 place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue") ,
-				language: $("#language").val(),
-				medium: $("#medium").val()
+				language: selectedLanguage,
+				medium: selectedMedium
         };
         
         $("#kw1").val("");
@@ -155,11 +164,12 @@ App.UIView = (function(){
 			userInputArray[i].req = "Stichwort";
 		}
         $("#filter-options").addClass("hide");
+		$("#button-show-filter").removeClass("hide");
 		data = {
             data:userInputArray
         }
         $('body').trigger('userInputs',data);
-        //userInputArray = [];
+        
 	};
 	
 	
