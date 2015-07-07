@@ -3,11 +3,14 @@ App.UIView = (function(){
 		uiView,
         userInputArray = [],
         querylist,
+		selectedMedium,
+		selectedLanguage,
 		
 	init = function(list) {
 		querylist = list;
         _initEvents();
-        
+        selectedMedium = "";
+		selectedLanguage = "";
 	},
 		
 		
@@ -16,6 +19,16 @@ App.UIView = (function(){
 		$("#buttonShowChart").on('click', _showChart);
 		$("#button-compare").on('click', _getInput);
 		$('#x-axis-drowdown li').on('click', _changeChart);
+		$('#language-dropdown li').on('click', _updateLanguage);
+		$('#medium-dropdown li').on('click', _updateMedium);
+	},
+		
+	_updateMedium = function (e) {
+		selectedMedium = $(this).text();
+	},
+		
+	_updateLanguage = function (e) {
+		selectedLanguage = $(this).text();
 	},
 		
 	_showPage = function (e) {
@@ -46,7 +59,9 @@ App.UIView = (function(){
                 yearMax: $("#yearMax").val(),
                 pagesMin: $("#pagesMin").val(),
                 pagesMax: $("#pagesMax").val(),
-                place: $("#place").val()   
+                place: $("#place").val(),
+				language: $("#language").val(),
+				medium: $("#medium").val()
         };
         
         $("#kw1").val("");
@@ -58,6 +73,8 @@ App.UIView = (function(){
         $("#pagesMin").val("");
         $("#pagesMax").val("");
         $("#place").val("");
+		$("#language").val();
+		$("#medium").val();
         
        	if(userInput.yearMin =="") {
 		   userInput.yearMin = 0;
@@ -74,6 +91,8 @@ App.UIView = (function(){
 
         userInputArray.push(userInput);
         _addQueryToList();
+		selectedLanguage ="";
+		selectedMedium="";
 	},
 	
 	_addQueryToList = function(){
@@ -102,7 +121,9 @@ App.UIView = (function(){
                 yearMax: 2017,
                 pagesMin: 0,
                 pagesMax: 9999,
-                place: ""
+                place: "",
+				language: "",
+				medium: ""
 			}
 			userInputArray.push(input);
 		}
