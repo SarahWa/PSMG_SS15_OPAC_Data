@@ -59,13 +59,9 @@ App.UIView = (function(){
                 yearMax: $("#yearMax").val(),
                 pagesMin: $("#pagesMin").val(),
                 pagesMax: $("#pagesMax").val(),
-<<<<<<< HEAD
-                place: $("#place").val(),
+                place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue") ,
 				language: $("#language").val(),
 				medium: $("#medium").val()
-=======
-                place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue")   
->>>>>>> origin/inputbearbeitung
         };
         
         $("#kw1").val("");
