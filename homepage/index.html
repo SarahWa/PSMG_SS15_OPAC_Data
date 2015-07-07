@@ -174,7 +174,7 @@
 	</footer>
     
     <script id="queryTemplate" type="text/template">
-	    <li class="row">
+	    <li class="row template">
             <p class="col-md-3">Stichwort:<%= kw1 %> <%= kw2 %></p>
             <p class="col-md-2">Author:<%= author %></p>
             <p class="col-md-2">Verlag:<%= publisher %></p>
@@ -188,7 +188,7 @@
 </button>
 </div>   
 		</li>
-		<li class="row">
+		<li class="row template">
 			<p class="col-md-3">Jahr:<%= yearMin %>-<%= yearMax %></p>
             <p class="col-md-2">Seitenzahlen:<%= pagesMin %>-<%= pagesMax %></p>
 			<p class="col-md-2">Sprache:<%= language %></p>
@@ -215,14 +215,8 @@
     
     
     </script>
-	<script>
-		$(function () {
-  			$('#button-compare').tooltip()
-		});
-	</script>
-	<script id="filterInputTemplate" type="text/template">
-
-	</script>
+	
+	
     
 </body>
     
