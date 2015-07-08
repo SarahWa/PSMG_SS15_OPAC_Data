@@ -6,55 +6,62 @@ App.ChartView = (function(){
         colorArrayBars = ["#3366cc","#3366cc","#dc3912","#dc3912","#ff9900","#ff9900","#109618","#109618","#990099","#990099","#0099c6","#0099c6","#dd4477","#dd4477"],
     
     init = function (){
-		google.load('visualization', '1.0', {'packages':['corechart', 'bar']});
+		google.load('visualization', '1.1', {'packages':['controls', 'corechart', 'bar']});
 		$('#chartContainer').height(750);
 	},
 		
-	_renderSingleChart = function(data) {
-		console.log(data);
-		chartData = new google.visualization.DataTable();
-		chartData.addColumn('string', data.data[0].req);
-		chartData.addColumn('number', "Anzahl");
-		
-		for (var i = 0; i< data.data[0].num.length; i++) {
-			chartData.addRow([data.data[0].num[i].name, data.data[0].num[i].num]);
-		}
-		
-		options = {
-            title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
-			hAxis: {
-				
-			},
-			vAxis: {
-				title: "Anzahl"
-			},
-            legend: {
-                position: 'none'
-            }
-		};
-		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
-		chart.draw(chartData, options);
-	},
-		
-	_renderComparedChart = function(data) {
+	_renderChart = function(data, dataLength) {
 		var title,
             j,
-			row = [];
-		console.log(data);
+			row = [],
+			dashboard = new google.visualization.Dashboard(
+            document.getElementById('chartWrapper'));
+		console.log(data.data[0].req);
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
-		for (var i = 0; i < data.data.length; i++) {
+		programmaticSlider = new google.visualization.ControlWrapper({
+          'controlType': 'NumberRangeFilter',
+          'containerId': 'controlContainer',
+          'options': {
+            'filterColumnLabel': 'Anzahl',
+            'ui': {'labelStacking': 'vertical'}
+          }
+        });
+		
+		
+		if (data.length <= 1) {
+		/*chartData.addColumn('string', data.data[0].req);*/
+			chartData.addColumn('number', "Anzahl");
+			for (var i = 0; i< data.data[0].num.length; i++) {
+				chartData.addRow([data.data[0].num[i].name, data.data[0].num[i].num]);
+			}
+			programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
+				'containerId': 'chartContainer',
+				'options': {
+				  title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
+					hAxis: {
+
+					},
+					vAxis: {
+						title: "Anzahl"
+					},
+					legend: {
+						position: 'none'
+					}
+				}
+      		});
+		}
+		else {
+			for (var i = 0; i < data.data.length; i++) {
 			chartData.addColumn('number', "Anzahl");
 		}
 		for (var i = 0; i< data.data[0].num.length; i++) {
 			j = 0;
 			row.push(data.data[0].num[i].name);
-			// nur pushen wenn nicht alle 0
 			while (j<data.data.length) {
 				row.push(data.data[j].num[i].num);
 				j++;
 			}
-			console.log(row);
 			chartData.addRow(row);
 			row = [];
 		}
@@ -62,8 +69,10 @@ App.ChartView = (function(){
         if(title =="Stichwort"){
             title = ""
         }
-		options = {
-            title: "Vergleich der jeweils gefundenen Bücher, unterteilt nach: Filteranfrage, "+title,
+		programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
+        'containerId': 'chartContainer',
+        'options': {
+    	  title: "Vergleich der jeweils gefundenen Bücher, unterteilt nach: Filteranfrage, "+title,
 			hAxis: {
 				
 			},
@@ -73,10 +82,13 @@ App.ChartView = (function(){
             legend: {
                 position: 'none'
             }
-		};
-		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
-		chart.draw(chartData, options);
+        }
+      });
+		}
+		//chartData.getSortedRows({column: 1, desc: true});
 		
+		dashboard.bind(programmaticSlider, programmaticChart);
+		dashboard.draw(chartData);
 	},
     
     _fillQueryBackground = function (){
@@ -87,12 +99,7 @@ App.ChartView = (function(){
         
         
     renderChart = function(data)   {
-		if (data.data.length <= 1) {
-			_renderSingleChart(data);
-		}
-		else {
-			_renderComparedChart(data);
-		}
+		_renderChart(data, data.data.length);
         _fillQueryBackground();
 		
     };
