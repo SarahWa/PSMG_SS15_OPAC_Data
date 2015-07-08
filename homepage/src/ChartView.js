@@ -28,8 +28,7 @@ App.ChartView = (function(){
           }
         });
 		
-		
-		if (data.length <= 1) {
+		if (dataLength <= 1) {
 		/*chartData.addColumn('string', data.data[0].req);*/
 			chartData.addColumn('number', "Anzahl");
 			for (var i = 0; i< data.data[0].num.length; i++) {
