@@ -24,11 +24,53 @@ App.UIView = (function(){
 		$('#language-dropdown li').on('click', _updateLanguage);
 		$('#medium-dropdown li').on('click', _updateMedium);
 		$('#button-show-filter').on('click', _showFilterOptions);
+        $("#querylist").on('click', '.edit',_handleEditQuery);
+        $("#querylist").on('click', '.delete',_handleDeleteQuery);
+       
 	},
+        
+    _handleDeleteQuery = function (e){
+        var li = e.currentTarget.parentElement.parentElement,
+            ul = e.currentTarget.parentElement.parentElement.parentElement,
+            index = $(li).index();
+        index = index/2;
+        userInputArray.splice(index,1);
+        _addQueryToList();
+        data = {
+            data:userInputArray
+        }
+		$('body').trigger('userInputs',data);
+        
+        
+    },
+        
+    _handleEditQuery = function (e){
+         var li = e.currentTarget.parentElement.parentElement,
+            ul = e.currentTarget.parentElement.parentElement.parentElement,
+            index = $(li).index();
+        index = index/2;
+        input = userInputArray[index];
+        $('#filter-options').removeClass('hide');
+        $('#button-show-filter').addClass('hide');
+        $("#kw1").val(input.kw1);
+        $("#kw2").val(input.kw2);
+        $("#author").val(input.author);
+        $("#publisher").val(input.publisher);
+        $("#yearMin").val(input.yearMin);
+        $("#yearMax").val(input.yearMax);
+        $("#pagesMin").val(input.pagesMin);
+        $("#pagesMax").val(input.pagesMax);
+        $("#place").val(input.place);
+		$("#language").val(input.language);
+		$("#medium").val(input.medium);
+        userInputArray.splice(index,1);
+        _addQueryToList();
+    },
 		
 	_showFilterOptions = function (e) {
 		$(this).addClass('hide');
 		$('#filter-options').removeClass('hide');
+        
 	},
 		
 	_updateMedium = function (e) {
@@ -75,7 +117,8 @@ App.UIView = (function(){
                 pagesMax: $("#pagesMax").val(),
                 place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue") ,
 				language: selectedLanguage,
-				medium: selectedMedium
+				medium: selectedMedium,
+                num: userInputArray.length
         };
         
         $("#kw1").val("");
