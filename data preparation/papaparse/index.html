@@ -30,19 +30,50 @@
           
         //changePages(); 
         //changeSignature();
-        toLowerCase();
-        replace();
+       // toLowerCase();
+       // replace();
         //changeYear();
-       //getNumDifEntries();
-       
+      // getNumDifEntries();
+        
           
-        var csv = Papa.unparse(data, {
+       var csv = Papa.unparse(data, {
               delimiter: ",",
               header: true
               
           });
-       console.log(csv);
-        
+       //console.log(csv);
+          var arrayVerlag = [],
+              arrayNum = [],
+              result = [],
+              max = 0,
+              maxI = 0;
+          
+          for (var i =0; i<data.data.length;i++){
+             var curr = data.data[i].publishingplace;
+              
+            if(arrayVerlag.indexOf(curr)!=-1){
+                arrayNum[arrayVerlag.indexOf(curr)]=arrayNum[arrayVerlag.indexOf(curr)]+1; 
+            }else{
+                arrayNum.push(1);
+                arrayVerlag.push(curr);
+            }
+             
+          }
+         for(var j= 0;j<17;j++){ 
+            for (var i =0; i<arrayNum.length;i++){ 
+                if(max<arrayNum[i]){
+                    max=arrayNum[i];
+                    maxI = i;
+                } 
+            }
+             result.push({num:max, name: arrayVerlag[maxI]});
+             arrayNum.splice(maxI,1);  
+             arrayVerlag.splice(maxI,1); 
+             max=0;
+             maxI=0;
+         }
+          console.log(result);
+           
       }
     });
       
@@ -60,12 +91,15 @@
              var array = [];
           
           for (var i =0; i<data.data.length;i++){
-             var curr = data.data[i].publishingplace;
-             if(array.indexOf(curr)==-1){
-                 array.push(curr);
-                 console.log(curr);
+             var curr = data.data[i].publisher;
+              console.log(array);
+             if(array.indexOf(curr)!=-1){
+                 array[array.indexOf(curr)]={verlag:curr, num:array[array.indexOf(curr)].num+1};
+                 
+             }else{
+                 array.push({verlag:curr, num:1});
              }
-              
+           console.log(array);   
           }
          console.log(array.length);
         }
