@@ -104,7 +104,6 @@
 	
 	function getMatchesForRequest(request, kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
 		var resultArray = [];
-		
 		if (request == "Stichwort") {
 			var result = {
 				// evtl noch ändern

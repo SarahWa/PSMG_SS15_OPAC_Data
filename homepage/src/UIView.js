@@ -3,8 +3,8 @@ App.UIView = (function(){
 		uiView,
         userInputArray = [],
         querylist,
-		selectedMedium,
-		selectedLanguage,
+		selectedMedium = "",
+		selectedLanguage = "",
 		request ="Bibliotheken",
 		
 	init = function(list) {
