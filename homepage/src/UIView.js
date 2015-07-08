@@ -3,9 +3,9 @@ App.UIView = (function(){
 		uiView,
         userInputArray = [],
         querylist,
-		selectedMedium = "",
-		selectedLanguage = "",
-		request ="Bibliotheken",
+		selectedMedium ="",
+		selectedLanguage ="",
+		request = "Bibliotheken",
 		
 	init = function(list) {
 		$('#button-compare').tooltip();

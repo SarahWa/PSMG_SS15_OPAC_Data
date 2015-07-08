@@ -22,6 +22,7 @@ App.ChartView = (function(){
 		}
 		
 		options = {
+            title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
 			hAxis: {
 				
 			},
@@ -58,7 +59,8 @@ App.ChartView = (function(){
 	},
 		
 	_renderComparedChart = function(data) {
-		var j,
+		var title,
+            j,
 			row = [];
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
@@ -77,7 +79,12 @@ App.ChartView = (function(){
 			chartData.addRow(row);
 			row = [];
 		}
+        title = data.data[0].req;
+        if(title =="Stichwort"){
+            title = ""
+        }
 		options = {
+            title: "Vergleich der jeweils gefundenen Bücher, unterteilt nach: Filteranfrage, "+title,
 			hAxis: {
 				
 			},

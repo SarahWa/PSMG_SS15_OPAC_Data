@@ -28,19 +28,20 @@
         data = results;
           
           
-         //changePages(); 
-         //changeSignature();
-         //toLowerCase();
+        //changePages(); 
+        //changeSignature();
+        toLowerCase();
         replace();
-         //changeYear();
-          console.log("fertig");
-        
-          var csv = Papa.unparse(data, {
+        //changeYear();
+       //getNumDifEntries();
+       
+          
+        var csv = Papa.unparse(data, {
               delimiter: ",",
               header: true
               
           });
-        console.log(csv);
+       console.log(csv);
         
       }
     });
@@ -54,6 +55,23 @@
     */
 
   }
+       
+        function getNumDifEntries(){
+             var array = [];
+          
+          for (var i =0; i<data.data.length;i++){
+             var curr = data.data[i].publishingplace;
+             if(array.indexOf(curr)==-1){
+                 array.push(curr);
+                 console.log(curr);
+             }
+              
+          }
+         console.log(array.length);
+        }
+        
+        
+        
         function replace (){
             for (var i = 0; i < data.data.length-1; i++) {
                 data.data[i].title = data.data[i].title.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
@@ -71,6 +89,9 @@
 				data.data[i].title = data.data[i].title.toLowerCase();
 				data.data[i].subtitle = data.data[i].subtitle.toLowerCase();
 				data.data[i].tags = data.data[i].tags.toLowerCase();
+                data.data[i].publisher = data.data[i].publisher.toLowerCase();
+                data.data[i].publishingplace = data.data[i].publishingplace.toLowerCase();
+                data.data[i].author = data.data[i].author.toLowerCase();
 				if (data.data[i].language.indexOf("de") >=0) {
 					data.data[i].language = "ger";
 				}
