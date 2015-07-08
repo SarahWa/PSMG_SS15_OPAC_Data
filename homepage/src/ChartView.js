@@ -7,12 +7,11 @@ App.ChartView = (function(){
     
     init = function (){
 		google.load('visualization', '1.0', {'packages':['corechart', 'bar']});
-		$('#chartContainer').height(800);
-		//google.setOnLoadCallback(drawChart);
-		//chartView = document.querySelector('.chart');
+		$('#chartContainer').height(750);
 	},
 		
 	_renderSingleChart = function(data) {
+		console.log(data);
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
 		chartData.addColumn('number', "Anzahl");
@@ -33,44 +32,24 @@ App.ChartView = (function(){
                 position: 'none'
             }
 		};
-		console.log("Data", chartData);
 		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
 		chart.draw(chartData, options);
-		console.log("Chart", chart);
-		
-		/*dataArray.push([data.data[0].req, ""]);
-		for (var i = 0; i < data.data.length; i++) {
-			for(var j = 0; j < data.data[i].num.length; j++){
-				dataArray.push([data.data[i].num[j].name, data.data[i].num[j].num]);
-			}
-		}
-	
-		
-		console.log("chartData",data);
-		chartData  = new google.visualization.arrayToDataTable(dataArray);
-		options = {
-			hAxis: {
-				title: 'Anzahl',
-				minValue: 0
-			}
-		};
-		material = new google.charts.Bar(document.getElementById('chartContainer'));
-		material.draw(chartData, options);*/
 	},
 		
 	_renderComparedChart = function(data) {
 		var title,
             j,
 			row = [];
+		console.log(data);
 		chartData = new google.visualization.DataTable();
 		chartData.addColumn('string', data.data[0].req);
 		for (var i = 0; i < data.data.length; i++) {
 			chartData.addColumn('number', "Anzahl");
-			console.log(i);
 		}
 		for (var i = 0; i< data.data[0].num.length; i++) {
 			j = 0;
 			row.push(data.data[0].num[i].name);
+			// nur pushen wenn nicht alle 0
 			while (j<data.data.length) {
 				row.push(data.data[j].num[i].num);
 				j++;
@@ -95,7 +74,6 @@ App.ChartView = (function(){
                 position: 'none'
             }
 		};
-		console.log("Data", chartData);
 		chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
 		chart.draw(chartData, options);
 		
@@ -108,7 +86,7 @@ App.ChartView = (function(){
     },
         
         
-    renderChart = function(data)   {//visualisieren mit google chart
+    renderChart = function(data)   {
 		if (data.data.length <= 1) {
 			_renderSingleChart(data);
 		}

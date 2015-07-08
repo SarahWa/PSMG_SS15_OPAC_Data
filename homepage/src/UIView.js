@@ -33,12 +33,10 @@ App.UIView = (function(){
 		
 	_updateMedium = function (e) {
 		selectedMedium = $(this).text();
-		console.log(selectedMedium);
 	},
 		
 	_updateLanguage = function (e) {
 		selectedLanguage = $(this).text();
-		console.log(selectedLanguage);
 	},
 		
 	_showPage = function (e) {
@@ -186,7 +184,7 @@ App.UIView = (function(){
 				medium: ""
 			}
 		return input;
-	}
+	},
       
 	_showChart = function (e) {
         var counter = 0;
