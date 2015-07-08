@@ -93,7 +93,7 @@ App.UIView = (function(){
 		$("#medium").val();
         
        	if(userInput.yearMin =="") {
-		   userInput.yearMin = 0;
+		   userInput.yearMin = 1940;
 	   	}
 		if(userInput.yearMax =="") {
 		   userInput.yearMax = 2017;
@@ -157,9 +157,9 @@ App.UIView = (function(){
 	},
 		
 	_showStatic1Chart = function () {
-		var input1 =_createInput("Erscheinungsjahr", "html5", 1994),
-			input2 = _createInput("Erscheinungsjahr", "html", 1994),
-			input3 = _createInput("Erscheinungsjahr", "css", 1994)
+		var input1 =_createInput("Erscheinungsjahr", "html", 1994),
+			input2 = _createInput("Erscheinungsjahr", "css", 1994),
+			input3 = _createInput("Erscheinungsjahr", "html5", 1994)
 		userInputArray.push(input1);
 		userInputArray.push(input2);
 		userInputArray.push(input3);

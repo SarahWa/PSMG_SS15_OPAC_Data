@@ -56,7 +56,7 @@
 			if ((minYear <= data[i].publishingyear && maxYear >= data[i].publishingyear) && data[i].publishingyear != ""){
 				counter++;
 			}
-			if (data[i].publishingyear == "" && minYear == 0 && maxYear == 2017) {
+			if (data[i].publishingyear == "" && minYear == 1940 && maxYear == 2017) {
 				counter++;
 			}
 			

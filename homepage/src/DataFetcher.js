@@ -16,7 +16,7 @@ App.DataFetcher = (function(){
     getData = function(data){
         
         var url="",
-            minYear=0,
+            minYear=1940,
             maxYear=2017,
             minPage=0,
             maxPage=9999;
