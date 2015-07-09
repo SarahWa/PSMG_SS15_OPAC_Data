@@ -74,10 +74,27 @@ App.UIView = (function(){
 		
 	_updateMedium = function (e) {
 		selectedMedium = $(this).text();
+        
+        if (selectedMedium=="all"){
+           selectedMedium = ""; 
+            $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
+        }else{
+            $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html(selectedMedium);
+            
+        }
+        
+        
 	},
 		
 	_updateLanguage = function (e) {
 		selectedLanguage = $(this).text();
+        
+        if (selectedLanguage=="all"){
+           selectedLanguage = ""; 
+            $('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html("Sprache");
+        }else{
+           $('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html(selectedLanguage); 
+        }
 	},
 		
 	_showPage = function (e) {
@@ -85,6 +102,7 @@ App.UIView = (function(){
    		$('.content').addClass('hide'); // hides all content divs
    		$( $(this).attr('href')).removeClass('hide');
 		$("html, body").animate({ scrollTop: 0 }, "slow");
+        
         userInputArray = [];
         _addQueryToList();
 		if ($(this).attr('href')=="#start") {
@@ -96,9 +114,11 @@ App.UIView = (function(){
 		if($(this).attr('href')== "#filter-options"){
 		  	$('#filterButton').removeClass('hide');
 			$('#controlContainer').removeClass('hide');
+            $('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
 		}
 		if ($(this).attr('href') == "#static1") {
 			_showStatic1Chart();
+            
 		}
 		if ($(this).attr('href') == "#static2") {
 			_showStatic2Chart();
@@ -106,10 +126,7 @@ App.UIView = (function(){
 		if ($(this).attr('href') == "#static3") {
 			_showStatic3Chart();
 		}
-		
-	//get the href and use it find which div to show
-	// if href="#static1" -> _showChart()
-	// if href="#static2" -> _showChart()
+		$('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
 			
 	},
 		
@@ -161,6 +178,8 @@ App.UIView = (function(){
         _addQueryToList();
 		selectedLanguage ="";
 		selectedMedium="";
+        $('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html("Sprache");
+        $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
 	},
 	
 	_addQueryToList = function(){
@@ -178,6 +197,7 @@ App.UIView = (function(){
 		
 	_getChartByXAxisCall = function(e) {
 		request = $(this).text();
+        $(this).parents('#filterButton').find('.dropdown-toggle').html(request);
 		_changeChart();
 	},
 		
@@ -211,7 +231,9 @@ App.UIView = (function(){
 	_showStatic1Chart = function () {
 		var input1 =_createInput("Erscheinungsjahr", "html", "",  1994),
 			input2 = _createInput("Erscheinungsjahr", "css", "", 1994),
-			input3 = _createInput("Erscheinungsjahr", "html5", "", 1994)
+			input3 = _createInput("Erscheinungsjahr", "html5", "", 1994);
+        request="Erscheinungsjahr";
+        
 		userInputArray.push(input1);
 		userInputArray.push(input2);
 		userInputArray.push(input3);
@@ -225,6 +247,7 @@ App.UIView = (function(){
 	_showStatic2Chart = function () {
 		var input1 = _createInput("Erscheinungsjahr", "", "book", 1980),
 			input2 = _createInput("Erscheinungsjahr", "", "ebook", 1980);
+        request = "Erscheinungsjahr";
 		userInputArray.push(input1);
 		userInputArray.push(input2);
 		data = {
@@ -237,7 +260,7 @@ App.UIView = (function(){
 	_showStatic3Chart = function () {
 		var input = _createInput("Verlage", "", "", 1940);
 		userInputArray.push(input);
-
+        request="Verlage";
 		data = {
 			data:userInputArray
 		}
@@ -281,7 +304,8 @@ App.UIView = (function(){
 		for (var i = 0; i < userInputArray.length; i++) {
 				userInputArray[i].req = request;
 		}
-		
+		$('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html("Sprache");
+        $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
         $("#filter-options").addClass("hide");
 		$("#button-show-filter").removeClass("hide");
 		data = {
