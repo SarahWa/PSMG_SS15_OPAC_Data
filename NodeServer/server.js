@@ -22,10 +22,10 @@
     var BOOKS = path.join(DATA, "opac_st.csv");
 	
 	/* constants */
-	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "unknown"],
-		MEDIUM = ["ebook", "book", "unknown"],
-		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "unknown"],
-		PUBLISHER = ["springer", "addison-wesley", "oldenbourg", "o'reilly", "hanser", "vieweg", "wiley", "apress", "galileo press", "teubner", "dpunkt-verl.","microsoft press", "franzis", "rrzn", "prentice-hall", "mcgraw-hill"];
+	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "ohne Signatur"],
+		MEDIUM = ["ebook", "book", "keine Angabe"],
+		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "keine Angabe"],
+		PUBLISHER = ["springer", "addison-wesley", "vieweg", "oldenbourg", "o'reilly", "hanser", "wiley", "apress", "teubner","galileo press", "dpunkt-verl.","microsoft press", "franzis", "rrzn", "prentice-hall", "mcgraw-hill"];
 
 	
 	function getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
@@ -50,7 +50,7 @@
 			if (language == "" || data[i].language.indexOf(language)>=0){
 				counter++;
 			}
-			if (language == "unknown" && data[i].language == "") {
+			if (language == "keine Angabe" && data[i].language == "") {
 				counter++
 			}
 			// !!! default needed !!!
@@ -71,7 +71,7 @@
 			if (medium == "book" && data[i].signatures != "" ) {
 				counter++;
 			}
-			if (medium == "unknown" && data[i].ebook == "" && data[i].signatures == "") {
+			if (medium == "keine Angabe" && data[i].ebook == "" && data[i].signatures == "") {
 				counter++;
 			}
 			// one of the 4 above
@@ -89,7 +89,7 @@
 				counter++;
 			}
 			
-			if (bib == "unknown" && data[i].signatures == "") {
+			if (bib == "ohne Signatur" && data[i].signatures == "") {
 				counter++;
 			}
 			
