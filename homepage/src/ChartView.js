@@ -38,7 +38,7 @@ App.ChartView = (function(){
 			programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
 				'containerId': 'chartContainer',
 				'options': {
-				  title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
+				  title: "Anzahl der gefundenen Ressourcen, unterteilt nach:  "+data.data[0].req,
 					hAxis: {
 
 					},
@@ -54,7 +54,7 @@ App.ChartView = (function(){
                 programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'PieChart',
 				'containerId': 'chartContainer',
 				'options': {
-				  title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
+				  title: "Anzahl der gefundenen Ressourcen, unterteilt nach:  "+data.data[0].req,
 					hAxis: {
 
 					},
@@ -87,7 +87,7 @@ App.ChartView = (function(){
 		programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
         'containerId': 'chartContainer',
         'options': {
-    	  title: "Vergleich der jeweils gefundenen Bücher, unterteilt nach: Filteranfrage, "+title,
+    	  title: "Vergleich der jeweils gefundenen Ressourcen, unterteilt nach: Filteranfrage, "+title,
 			hAxis: {
 				
 			},
