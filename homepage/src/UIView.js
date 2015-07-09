@@ -122,8 +122,8 @@ App.UIView = (function(){
             $('#legend-container').removeClass('hide');
            $('#staticText').html("Das Diagramm zeigt alle Ressourcen des OPAC-Datensatzes <br></br> über die Themen ");
              $('#data-one').html("HTML");
-            $('#data-two').html("HTML5");
-            $('#data-three').html("CSS");
+            $('#data-two').html("CSS");
+            $('#data-three').html("HTML5");
             $('#staticTextTwo').html("aufgelistet nach dem Erscheinungsjahr");
             
 		}
