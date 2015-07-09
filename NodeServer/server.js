@@ -22,7 +22,7 @@
     var BOOKS = path.join(DATA, "opac_st.csv");
 	
 	/* constants */
-	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "ohne Signatur"],
+	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "nicht zugeordnet"],
 		MEDIUM = ["ebook", "book", "keine Angabe"],
 		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "keine Angabe"],
 		PUBLISHER = ["springer", "addison-wesley", "vieweg", "oldenbourg", "o'reilly", "hanser", "wiley", "apress", "teubner","galileo press", "dpunkt-verl.","microsoft press", "franzis", "rrzn", "prentice-hall", "mcgraw-hill"];
@@ -89,7 +89,7 @@
 				counter++;
 			}
 			
-			if (bib == "ohne Signatur" && data[i].signatures == "") {
+			if (bib == "nicht zugeordnet" && data[i].signatures == "") {
 				counter++;
 			}
 			
@@ -154,7 +154,7 @@
 		
 		if (request == "Seitenzahl") {
 			var step=50;
-			for (var minPages = 0; minPages <= 1500; minPages += step) {	
+			for (var minPages = 1; minPages <= 1500; minPages += step) {	
 				var maxPages = minPages + step;
 				if (minPages == 1500) {
 					maxPages = 3500;
