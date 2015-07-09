@@ -24,7 +24,8 @@
 	/* constants */
 	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "unknown"],
 		MEDIUM = ["ebook", "book", "unknown"],
-		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "unknown"];
+		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "unknown"],
+		PUBLISHER = ["springer", "addison-wesley", "oldenbourg", "o'reilly", "hanser", "vieweg", "wiley", "apress", "galileo press", "teubner", "dpunkt-verl.","microsoft press", "franzis", "rrzn", "prentice-hall", "mcgraw-hill"];
 
 	
 	function getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib) {
@@ -177,6 +178,17 @@
 			}
 			return resultArray;
 		}
+			if (request == "Verlage") {
+				for (var i = 0; i < PUBLISHER.length; i++) {	
+					var result = {
+					name: PUBLISHER[i],
+					num: getNumberOfMatches(kw1, kw2, author, PUBLISHER[i], place, language, minYear, maxYear, medium, minPages, maxPages, bib)
+					}
+					resultArray.push(result);
+				}
+				return resultArray;
+			}
+		
 	}
 	
 	function keywordSearch(keyword, data) {

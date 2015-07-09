@@ -70,7 +70,6 @@ App.UIView = (function(){
 	_showFilterOptions = function (e) {
 		$(this).addClass('hide');
 		$('#filter-options').removeClass('hide');
-        
 	},
 		
 	_updateMedium = function (e) {
@@ -90,10 +89,22 @@ App.UIView = (function(){
         _addQueryToList();
 		if ($(this).attr('href')=="#start") {
 			request = "Bibliotheken";
+			$('#filterButton').removeClass('hide');
+			$('#controlContainer').removeClass('hide');
 			_changeChart();
+		}
+		if($(this).attr('href')== "#filter-options"){
+		  	$('#filterButton').removeClass('hide');
+			$('#controlContainer').removeClass('hide');
 		}
 		if ($(this).attr('href') == "#static1") {
 			_showStatic1Chart();
+		}
+		if ($(this).attr('href') == "#static2") {
+			_showStatic2Chart();
+		}
+		if ($(this).attr('href') == "#static3") {
+			_showStatic3Chart();
 		}
 		
 	//get the href and use it find which div to show
@@ -198,21 +209,43 @@ App.UIView = (function(){
 	},
 		
 	_showStatic1Chart = function () {
-		var input1 =_createInput("Erscheinungsjahr", "html", 1994),
-			input2 = _createInput("Erscheinungsjahr", "css", 1994),
-			input3 = _createInput("Erscheinungsjahr", "html5", 1994)
+		var input1 =_createInput("Erscheinungsjahr", "html", "",  1994),
+			input2 = _createInput("Erscheinungsjahr", "css", "", 1994),
+			input3 = _createInput("Erscheinungsjahr", "html5", "", 1994)
 		userInputArray.push(input1);
 		userInputArray.push(input2);
 		userInputArray.push(input3);
-		
 		data = {
 			data:userInputArray
 		}
 		$('body').trigger('userInputs',data);
-		_addQueryToList();
+		//_addQueryToList();
 	},
 		
-	_createInput = function (req, kw1, minyear) {
+	_showStatic2Chart = function () {
+		var input1 = _createInput("Erscheinungsjahr", "", "book", 1980),
+			input2 = _createInput("Erscheinungsjahr", "", "ebook", 1980);
+		userInputArray.push(input1);
+		userInputArray.push(input2);
+		data = {
+			data:userInputArray
+		}
+		$('body').trigger('userInputs',data);
+		//_addQueryToList();
+	},
+		
+	_showStatic3Chart = function () {
+		var input = _createInput("Verlage", "", "", 1940);
+		userInputArray.push(input);
+
+		data = {
+			data:userInputArray
+		}
+		$('body').trigger('userInputs',data);
+		//_addQueryToList();
+	},
+		
+	_createInput = function (req, kw1, medium, minyear) {
 		var input = {req: req,
                 kw1: kw1,
                 kw2: "",
@@ -224,7 +257,8 @@ App.UIView = (function(){
                 pagesMax: 9999,
                 place: "",
 				language: "",
-				medium: ""
+				medium: medium,
+				num: userInputArray.length
 			}
 		return input;
 	},
