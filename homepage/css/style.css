@@ -15,6 +15,12 @@
 	color: white;
 }
 
+#legend-container{
+    text-align: center;
+    font-size: 1.3em;
+}
+        
+
 #filter-options {
 	height: auto;
 }

@@ -34,6 +34,7 @@ App.ChartView = (function(){
 			for (var i = 0; i< data.data[0].num.length; i++) {
 				chartData.addRow([data.data[0].num[i].name, data.data[0].num[i].num]);
 			}
+            if(data.data[0].req!="Sprache"){
 			programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
 				'containerId': 'chartContainer',
 				'options': {
@@ -49,6 +50,21 @@ App.ChartView = (function(){
 					}
 				}
       		});
+            }else{
+                programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'PieChart',
+				'containerId': 'chartContainer',
+				'options': {
+				  title: "Anzahl der gefundenen Bücher, unterteilt nach:  "+data.data[0].req,
+					hAxis: {
+
+					},
+					vAxis: {
+						title: "Anzahl"
+					}
+					
+				}
+                                                                            });
+            }
 		}
 		else {
 			for (var i = 0; i < data.data.length; i++) {
@@ -96,10 +112,17 @@ App.ChartView = (function(){
         });
     },
         
+    _legende = function(){
+       $("#data-one").css({"color":colorArrayBars[0],"font-weight":"bold"});
+       $("#data-two").css({"color":colorArrayBars[2],"font-weight":"bold"}); 
+       $("#data-three").css({"color":colorArrayBars[4],"font-weight":"bold"});    
+    },
+        
         
     renderChart = function(data)   {
 		_renderChart(data, data.data.length);
         _fillQueryBackground();
+        _legende();
 		
     };
     

@@ -109,6 +109,7 @@ App.UIView = (function(){
 			request = "Bibliotheken";
 			$('#filterButton').removeClass('hide');
 			$('#controlContainer').removeClass('hide');
+            
 			_changeChart();
 		}
 		if($(this).attr('href')== "#filter-options"){
@@ -118,19 +119,34 @@ App.UIView = (function(){
 		}
 		if ($(this).attr('href') == "#static1") {
 			_showStatic1Chart();
+            $('#legend-container').removeClass('hide');
+           $('#staticText').html("Das Diagramm zeigt alle Ressourcen des OPAC-Datensatzes <br></br> über die Themen ");
+             $('#data-one').html("HTML");
+            $('#data-two').html("HTML5");
+            $('#data-three').html("CSS");
+            $('#staticTextTwo').html("aufgelistet nach dem Erscheinungsjahr");
             
 		}
 		if ($(this).attr('href') == "#static2") {
 			_showStatic2Chart();
+            $('#legend-container').removeClass('hide');
+             $('#staticText').html("Das Diagramm zeigt wie viele");
+            $('#data-one').html("Bücher/");
+            $('#data-two').html("Elektronische Ressourcen");
+            $('#data-three').html("");
+             $('#staticTextTwo').html(" im Laufe der Jahre erschienen sind");
 		}
 		if ($(this).attr('href') == "#static3") {
 			_showStatic3Chart();
+		}
+        if ($(this).attr('href') == "#static4") {
+			_showStatic4Chart();
 		}
 		$('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
 			
 	},
 		
-		
+	
 	_getInput = function (request) {
 		var userInput;
 			userInput = {
@@ -267,6 +283,16 @@ App.UIView = (function(){
 		$('body').trigger('userInputs',data);
 		//_addQueryToList();
 	},
+        
+    _showStatic4Chart = function(){
+        var input =_createInput("Sprache","","", 1940);
+        userInputArray.push(input);
+        request="Sprache";
+        data = {
+			data:userInputArray
+		}
+		$('body').trigger('userInputs',data);
+    },
 		
 	_createInput = function (req, kw1, medium, minyear) {
 		var input = {req: req,
