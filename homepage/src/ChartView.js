@@ -9,6 +9,7 @@ App.ChartView = (function(){
 	_getDataForSingleCharts = function (data) {
 		var categoryArray = [],
 			seriesArray = [];
+		console.log(data);
 		categoryArray.push(null);
 		seriesArray.push("Anzahl");
 		for(var i = 0; i < data.length; i++) {
@@ -18,9 +19,32 @@ App.ChartView = (function(){
 		
 		return [categoryArray , seriesArray];
 	},
-	
-	
 		
+	_getDataForComparedCharts = function (data) {
+		var categoryArray = [],
+			resultArray = [],
+			seriesArray = [],
+			j=0;
+		console.log(data);
+		categoryArray.push(null);
+		for (var i = 0; i < data[0].num.length; i++) {
+			categoryArray.push(data[0].num[i].name);
+		}
+		resultArray.push(categoryArray);
+		for(var i = 0; i < data.length; i++) {
+			seriesArray.push(data[i].kw1);					// _getLegend(data[i])
+			j=0;
+			while (j<data[i].num.length) {
+				seriesArray.push(data[i].num[j].num);
+				j++;
+			}
+			resultArray.push(seriesArray);
+			seriesArray = [];
+		}
+		
+		return resultArray;
+	},
+	
 	_showSingleColumnChart = function(data, req) {
 		var dataArray = _getDataForSingleCharts(data);
 		
@@ -63,7 +87,24 @@ App.ChartView = (function(){
 			}
     	};
 		var chart1 = new Highcharts.Chart(options);
-		console.log(chart1.options.colors);
+		//console.log(chart1.options.colors);
+	},
+		
+	_showComparedLineChart= function (data, req) {
+		//console.log(dataArray);
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.chart.type = 'line';
+		options.legend.enabled = true;
+		options.data.columns = _getDataForComparedCharts(data);
+		var chart1 = new Highcharts.Chart(options);
+	},
+		
+	_showComparedColumnChart = function (data, req) {
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.chart.type = 'column';
+		options.legend.enabled = true;
+		options.data.columns = _getDataForComparedCharts(data);
+		var chart1 = new Highcharts.Chart(options);
 	},
     
     _fillQueryBackground = function (){
@@ -80,16 +121,26 @@ App.ChartView = (function(){
         
         
     renderChart = function(data)   {
-		_showSingleColumnChart(data.data[0].num, data.data[0].req);
-		if(data.data[0].req == "Sprache") {
-        	options.chart.type = 'pie';
-			options.legend.enabled = true;
-			options.data.columns = _getDataForSingleCharts(data.data[0].num);
-			options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
-        	var chart1 = new Highcharts.Chart(options);
+		if(data.length <=1) {
+			_showSingleColumnChart(data[0].num, data[0].req);
+			if(data[0].req == "Sprache") {
+				options.chart.type = 'pie';
+				options.legend.enabled = true;
+				options.data.columns = _getDataForSingleCharts(data[0].num);
+				options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
+				var chart1 = new Highcharts.Chart(options);
+			}
 		}
-        _fillQueryBackground();
-        _legende();
+		else {
+			if (data[0].req == "Erscheinungsjahr" || data[0].req == "Seitenzahl"){
+				_showComparedLineChart(data, data[0].req);
+			}
+			else {
+				_showComparedColumnChart(data, data[0].req);
+			}
+		}
+			_fillQueryBackground();
+			_legende();
 		
     };
     
