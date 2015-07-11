@@ -22,9 +22,9 @@
     var BOOKS = path.join(DATA, "opac_st.csv");
 	
 	/* constants */
-	var BIB = ["Hochschule", "Andere Bibliotheken", "Handapparate und andere Standorte", "Lesesaal Recht", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 2", "Lesesaal Philosophicum 1", "Lesesaal Mathematik", "Lesesaal Physik", "Lesesaal Chemie", "Lesesaal Biologie", "Lesesaal Medizin", "Universitaetsklinikum", "andere Kliniken", "Lesesaal Sport", "Zentralbibliothek", "nicht zugeordnet"],
+	var BIB = ["Hochschule", "Zentralbibliothek", "nicht zugeordnet", "Handapparate und andere Standorte", "Lesesaal Wirtschaft", "Lesesaal Philosophicum 1", "Lesesaal Physik", "Lesesaal Philosophicum 2", "Lesesaal Mathematik", "Andere Bibliotheken", "Lesesaal Recht", "Lesesaal Biologie", "Lesesaal Medizin", "Lesesaal Chemie", "andere Kliniken", "Universitaetsklinikum", "Lesesaal Sport" ],
 		MEDIUM = ["ebook", "book", "keine Angabe"],
-		LANGUAGES = ["ger", "eng", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan", "keine Angabe"],
+		LANGUAGES = ["ger", "eng", "keine Angabe", "ita", "spa", "dut", "gre", "fre", "rus", "pol", "dan"],
 		PUBLISHER = ["springer", "addison-wesley", "vieweg", "oldenbourg", "o'reilly", "hanser", "wiley", "apress", "teubner","galileo press", "dpunkt-verl.","microsoft press", "franzis", "rrzn", "prentice-hall", "mcgraw-hill"];
 
 	

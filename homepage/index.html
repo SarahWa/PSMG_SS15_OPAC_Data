@@ -32,7 +32,7 @@
                     <a href="#static1">HTML - HTML5 - CSS</a>
                 </li>
                 <li>
-                    <a href="#static2">Bücher-elektronische Ressource</a>
+                    <a href="#static2">Bücher - elektronische Ressource</a>
                 </li>
                 <li>
                     <a href="#static3">Top Verlage</a>
@@ -152,20 +152,18 @@
 				<!-- chart -->
                     
 					<div id="chartWrapper" class="row">
-                    <div class="content hide" id="legend-container">
+                    <!--<div class="content hide" id="legend-container">
                         <span id="staticText"></span>
                             <span id="data-one"></span>
                             <span id="data-two"></span>
                             <span id="data-three"></span>
                         <span id="staticTextTwo"></span>
-                    </div>
+                    </div>-->
                         
-					<div id="chartContainer">
+					<div id="chartContainer" class="col-md-10">
 						
 					</div>
-					<div id="controlContainer" class="col-md-9 col-md-offset-1 content">
-					</div>
-					<div id="requestselector" class="col-md-2 col-md-offset-10">
+					<div id="requestselector" class="col-md-2">
 							<div class="dropup content" id="filterButton">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     x-Achse
@@ -181,6 +179,8 @@
   </ul>
 </div>
 					</div>
+					
+					
 				</div>
 			
     </content>
@@ -219,7 +219,8 @@
     <script src="libs/jquery-2.1.3.js"></script>
 	<script src="libs/bootstrap.min.js"></script>
     <script src="libs/underscore.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/data.js"></script>
     <script src="src/OpacApp.js"></script>
     <script src="src/Controller.js"></script>
     <script src="src/ChartView.js"></script>
@@ -228,9 +229,9 @@
 	
  
     <script>
-    
-    App.init();
-    
+    $(function() {
+    	App.init();
+    });
     
     </script>
 	

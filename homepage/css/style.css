@@ -5,6 +5,11 @@
 .minPaddingBottom {
 	padding-bottom: 10px;
 }
+
+#chartContainer {
+	margin-top: 30px;
+}
+
 #buttonShowChart {
 	height: 2em;
 	color: black;
@@ -23,6 +28,10 @@
 
 #filter-options {
 	height: auto;
+}
+
+#requestselector {
+	margin-top: 550px;
 }
 
 input.field {
