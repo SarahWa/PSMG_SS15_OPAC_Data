@@ -9,7 +9,6 @@ App.ChartView = (function(){
 	_getDataForSingleCharts = function (data) {
 		var categoryArray = [],
 			seriesArray = [];
-		console.log(data);
 		categoryArray.push(null);
 		seriesArray.push("Anzahl");
 		for(var i = 0; i < data.length; i++) {
@@ -18,6 +17,32 @@ App.ChartView = (function(){
 		}
 		
 		return [categoryArray , seriesArray];
+	},
+		
+	_getLegendString = function (data) {
+		var resultString = "";
+		if (data.kw1 != "") {
+			resultString += data.kw1 + " ";
+		}
+		if (data.kw2 != "") {
+			resultString += data.kw2 + " ";
+		}
+		if (data.language != "") {
+			resultString += data.language + " ";
+		}
+		if (data.medium != "") {
+			resultString += data.medium + " ";
+		}
+		if (data.place != "") {
+			resultString += data.kw2 + " ";
+		}
+		if (data.publisher != "") {
+			resultString += data.publisher + " ";
+		}
+		if (data.author != "") {
+			resultString += data.author;
+		}
+		return resultString;
 	},
 		
 	_getDataForComparedCharts = function (data) {
@@ -32,7 +57,8 @@ App.ChartView = (function(){
 		}
 		resultArray.push(categoryArray);
 		for(var i = 0; i < data.length; i++) {
-			seriesArray.push(data[i].kw1);					// _getLegend(data[i])
+			console.log(data[i]);
+			seriesArray.push(_getLegendString(data[i]));					// _getLegend(data[i])
 			j=0;
 			while (j<data[i].num.length) {
 				seriesArray.push(data[i].num[j].num);
@@ -80,8 +106,10 @@ App.ChartView = (function(){
 					dataLabels: {
 						enabled: false,
 					}
-            	}
+            	},
+				
        		},
+			
 			tooltip: {
 				pointFormat: '{series.name}: <b>{point.y} </b>'
 			}
@@ -95,6 +123,15 @@ App.ChartView = (function(){
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.chart.type = 'line';
 		options.legend.enabled = true;
+		options.tooltip.crosshairs = [true];
+		options.tooltip = {
+    		crosshairs: true,
+    		shared: true,
+    		headerFormat: '{point.key}<table>',
+    		pointFormat: '<tr><td style=\"color: {series.color}\">{series.name}: <b></td><td>{point.y} </b></td></tr>',
+			useHTML: true,
+    		footerFormat: '</table>',
+		},
 		options.data.columns = _getDataForComparedCharts(data);
 		var chart1 = new Highcharts.Chart(options);
 	},
