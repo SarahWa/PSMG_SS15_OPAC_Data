@@ -9,12 +9,10 @@ App.DataFetcher = (function(){
 			data = {
 				data: input
 			};
-		getData(data);
-		
+		getData(data);	
     },
 		
     getData = function(data){
-        
         var url="",
             minYear=1940,
             maxYear=2017,
@@ -39,16 +37,14 @@ App.DataFetcher = (function(){
             }
             
             
-            url = "http://localhost:3333/api/get/"+data.data[i].req+"/"+data.data[i].kw1+"/"+data.data[i].kw2+"/"+data.data[i].author+"/"+data.data[i].publisher+"/"+data.data[i].place+"/"+data.data[i].language+"/"+minYear+"/"+maxYear+"/"+data.data[i].medium+"/"+minPage+"/"+maxPage+"/";
-        	console.log("URL", url);
+        url = "http://localhost:3333/api/get/"+data.data[i].req+"/"+data.data[i].kw1+"/"+data.data[i].kw2+"/"+data.data[i].author+"/"+data.data[i].publisher+"/"+data.data[i].place+"/"+data.data[i].language+"/"+minYear+"/"+maxYear+"/"+data.data[i].medium+"/"+minPage+"/"+maxPage+"/";
             $.ajax({
                 url: url,
                 type: "GET",
                 contentType: "text/javascript",
                 success: _serverResponse
             });
-            
-            
+ 
         }
     },
         
@@ -63,10 +59,7 @@ App.DataFetcher = (function(){
 			responseDataArray=[];
         }
     };
-    
-    
-    
-    
+
     that.init = init;
     that.getData = getData;
     

@@ -50,14 +50,12 @@ App.ChartView = (function(){
 			resultArray = [],
 			seriesArray = [],
 			j=0;
-		console.log(data);
 		categoryArray.push(null);
 		for (var i = 0; i < data[0].num.length; i++) {
 			categoryArray.push(data[0].num[i].name);
 		}
 		resultArray.push(categoryArray);
 		for(var i = 0; i < data.length; i++) {
-			console.log(data[i]);
 			seriesArray.push(_getLegendString(data[i]));					
 			j=0;
 			while (j<data[i].num.length) {
@@ -118,7 +116,6 @@ App.ChartView = (function(){
 	},
 		
 	_showComparedLineChart= function (data, req) {
-		//console.log(dataArray);
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.chart.type = 'line';
 		options.legend.enabled = true;
