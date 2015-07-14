@@ -258,7 +258,6 @@ App.UIView = (function(){
 			data:userInputArray
 		}
 		$('body').trigger('userInputs',data);
-		//_addQueryToList();
 	},
 		
 	_showStatic2Chart = function () {
@@ -271,7 +270,6 @@ App.UIView = (function(){
 			data:userInputArray
 		}
 		$('body').trigger('userInputs',data);
-		//_addQueryToList();
 	},
 		
 	_showStatic3Chart = function () {
@@ -282,7 +280,6 @@ App.UIView = (function(){
 			data:userInputArray
 		}
 		$('body').trigger('userInputs',data);
-		//_addQueryToList();
 	},
         
     _showStatic4Chart = function(){

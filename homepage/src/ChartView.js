@@ -11,11 +11,16 @@ App.ChartView = (function(){
 			seriesArray = [];
 		categoryArray.push(null);
 		seriesArray.push("Anzahl");
-		for(var i = 0; i < data.length; i++) {
-			categoryArray.push(data[i].name);
-			seriesArray.push(data[i].num);
+		if (data.length == 1) {
+			categoryArray.push("Alle Ressourcen");
+			seriesArray.push(data[0].num);
 		}
-		
+		else {
+			for(var i = 0; i < data.length; i++) {
+				categoryArray.push(data[i].name);
+				seriesArray.push(data[i].num);
+			}
+		}
 		return [categoryArray , seriesArray];
 	},
 		
@@ -50,14 +55,12 @@ App.ChartView = (function(){
 			resultArray = [],
 			seriesArray = [],
 			j=0;
-		console.log(data);
 		categoryArray.push(null);
 		for (var i = 0; i < data[0].num.length; i++) {
 			categoryArray.push(data[0].num[i].name);
 		}
 		resultArray.push(categoryArray);
 		for(var i = 0; i < data.length; i++) {
-			console.log(data[i]);
 			seriesArray.push(_getLegendString(data[i]));					
 			j=0;
 			while (j<data[i].num.length) {
@@ -117,10 +120,18 @@ App.ChartView = (function(){
 		var chart1 = new Highcharts.Chart(options);
 	},
 		
-	_showComparedLineChart= function (data, req) {
-		//console.log(dataArray);
+	_showSinglePieChart = function (data, req) {
+		options.chart.type = 'pie';
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
-		options.chart.type = 'line';
+		options.legend.enabled = true;
+		options.data.columns = _getDataForSingleCharts(data);
+		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
+		var chart1 = new Highcharts.Chart(options);
+	},
+		
+	_showComparedAreaChart= function (data, req) {
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.chart.type = 'area';
 		options.legend.enabled = true;
 		options.tooltip.crosshairs = [true];
 		options.tooltip = {
@@ -147,18 +158,16 @@ App.ChartView = (function(){
         
     renderChart = function(data)   {
 		if(data.length <=1) {
-			_showSingleColumnChart(data[0].num, data[0].req);
-			if(data[0].req == "Sprache") {
-				options.chart.type = 'pie';
-				options.legend.enabled = true;
-				options.data.columns = _getDataForSingleCharts(data[0].num);
-				options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
-				var chart1 = new Highcharts.Chart(options);
+			if(data[0].req == "Sprache" || data[0].req == "Medium" || data[0].req == "Verlage") {
+				_showSinglePieChart(data[0].num, data[0].req);
+			}
+			else {
+				_showSingleColumnChart(data[0].num, data[0].req);
 			}
 		}
 		else {
 			if (data[0].req == "Erscheinungsjahr" || data[0].req == "Seitenzahl"){
-				_showComparedLineChart(data, data[0].req);
+				_showComparedAreaChart(data, data[0].req);
 			}
 			else {
 				_showComparedColumnChart(data, data[0].req);
