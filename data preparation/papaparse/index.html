@@ -8,8 +8,8 @@
     
     <input type="file" id="csv-file" name="files"/>
 	<button id="saveAll" disabled="disabled">Save all</button>
-	<button id="saveBookData" disabled="disabled">Save bookdata</button>
-	<button id="saveBookText" disabled="disabled">Save booktext</button>
+	<!--<button id="saveBookData" disabled="disabled">Save bookdata</button>
+	<button id="saveBookText" disabled="disabled">Save booktext</button>-->
     <script src="libs/papaparse.min.js"></script>
 	<script src="libs/filesaver.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
@@ -58,7 +58,7 @@
 		$("#saveAll").prop('disabled', false);
 			
 		
-// zum evtl. splitten der csv in 2 oder mehrere teile (anderes serverscript)
+// zum splitten der csv in 2 oder mehrere teile (anderes serverscript)
 				
 		/*var csv2 = Papa.unparse(data2, {
 		  delimiter: ",",

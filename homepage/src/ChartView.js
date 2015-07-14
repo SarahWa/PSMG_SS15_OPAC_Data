@@ -58,7 +58,7 @@ App.ChartView = (function(){
 		resultArray.push(categoryArray);
 		for(var i = 0; i < data.length; i++) {
 			console.log(data[i]);
-			seriesArray.push(_getLegendString(data[i]));					// _getLegend(data[i])
+			seriesArray.push(_getLegendString(data[i]));					
 			j=0;
 			while (j<data[i].num.length) {
 				seriesArray.push(data[i].num[j].num);
@@ -115,7 +115,6 @@ App.ChartView = (function(){
 			}
     	};
 		var chart1 = new Highcharts.Chart(options);
-		//console.log(chart1.options.colors);
 	},
 		
 	_showComparedLineChart= function (data, req) {
@@ -140,22 +139,11 @@ App.ChartView = (function(){
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.chart.type = 'column';
 		options.legend.enabled = true;
+		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b>'
 		options.data.columns = _getDataForComparedCharts(data);
 		var chart1 = new Highcharts.Chart(options);
 	},
-    
-    _fillQueryBackground = function (){
-        /*$('li.template').each(function (i){
-            $(this).css({"background":colorArrayBars[i]});
-        });*/
-    },
-        
-    _legende = function(){
-      /* $("#data-one").css({"color":colorArrayBars[0],"font-weight":"bold"});
-       $("#data-two").css({"color":colorArrayBars[2],"font-weight":"bold"}); 
-       $("#data-three").css({"color":colorArrayBars[4],"font-weight":"bold"}); */   
-    },
-        
+         
         
     renderChart = function(data)   {
 		if(data.length <=1) {
@@ -176,9 +164,6 @@ App.ChartView = (function(){
 				_showComparedColumnChart(data, data[0].req);
 			}
 		}
-			_fillQueryBackground();
-			_legende();
-		
     };
     
     
