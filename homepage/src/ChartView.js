@@ -1,6 +1,7 @@
 App.ChartView = (function(){
     var that = {},
 		options,
+		chart1,
     
     init = function (){
 		$('#chartContainer').height(600);
@@ -109,25 +110,24 @@ App.ChartView = (function(){
 					dataLabels: {
 						enabled: false,
 					}
-            	},
-				
+            	}
        		},
 			
 			tooltip: {
 				pointFormat: '{series.name}: <b>{point.y} </b>'
 			}
     	};
-		var chart1 = new Highcharts.Chart(options);
+		chart1 = new Highcharts.Chart(options);
 	},
 		
-
 	_showSinglePieChart = function (data, req) {
 		options.chart.type = 'pie';
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.legend.enabled = true;
 		options.data.columns = _getDataForSingleCharts(data);
-		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
-		var chart1 = new Highcharts.Chart(options);
+		console.log(options.data.columns);
+		options.tooltip.pointFormat = '{series.name}: <br> <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
+		chart1 = new Highcharts.Chart(options);
 	},
 		
 	_showComparedAreaChart= function (data, req) {
@@ -144,7 +144,7 @@ App.ChartView = (function(){
     		footerFormat: '</table>',
 		},
 		options.data.columns = _getDataForComparedCharts(data);
-		var chart1 = new Highcharts.Chart(options);
+		chart1 = new Highcharts.Chart(options);
 	},
 		
 	_showComparedColumnChart = function (data, req) {
@@ -153,25 +153,50 @@ App.ChartView = (function(){
 		options.legend.enabled = true;
 		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b>'
 		options.data.columns = _getDataForComparedCharts(data);
-		var chart1 = new Highcharts.Chart(options);
+		chart1 = new Highcharts.Chart(options);
 	},
+		
+	_showInfo = function (chartType) {
+		$("#chartWrapper .info").addClass('hide');
+		switch (chartType) {
+			case "pie":
+				$("#info-text-pie").removeClass('hide');
+				break;
+			case "column":
+				$("#info-text-column").removeClass('hide');
+				break;
+			case "area":
+				$("#info-text-area").removeClass('hide');
+				break;
+		}
+	},
+		
+	/*updateLanguageChart = function () {
+		for (var i = 0; i<= 2; i++) {
+			chart1.series[0].points[i].setVisible(false);
+		}
+	},*/
          
         
     renderChart = function(data)   {
 		if(data.length <=1) {
 			if(data[0].req == "Sprache" || data[0].req == "Medium" || data[0].req == "Verlage") {
 				_showSinglePieChart(data[0].num, data[0].req);
+				_showInfo("pie");
 			}
 			else {
 				_showSingleColumnChart(data[0].num, data[0].req);
+				_showInfo("column");
 			}
 		}
 		else {
 			if (data[0].req == "Erscheinungsjahr" || data[0].req == "Seitenzahl"){
 				_showComparedAreaChart(data, data[0].req);
+				_showInfo("area");
 			}
 			else {
 				_showComparedColumnChart(data, data[0].req);
+				_showInfo("column");
 			}
 		}
     };
@@ -181,6 +206,7 @@ App.ChartView = (function(){
     
     that.init = init;
     that.renderChart= renderChart;
+	that.updataLanguageChart = updateLanguageChart;
     
 
    return that; 

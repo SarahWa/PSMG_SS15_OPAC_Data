@@ -25,6 +25,7 @@ App.Controller = (function(){
         $('body').on("userInputs",_handleUserInputs);
         $('body').on("serverResponse",_handleServerResponse);
         $('body').on("static",_handleStaticClicked);
+		//$('body').on("hideLanguagePices", _handleHideLanguagePieces);
     },
         
     _handleServerResponse = function(event, data){
@@ -37,7 +38,11 @@ App.Controller = (function(){
         
     _handleUserInputs = function(event, data){
 		dataFetcher.getData(data);  
-    };
+    }/*,
+		
+	_handleHideLanguagePieces = function (event) {
+		chartView.updataLanguageChart();
+	}*/;
     
     
     
