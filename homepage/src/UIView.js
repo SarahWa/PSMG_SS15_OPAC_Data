@@ -30,17 +30,15 @@ App.UIView = (function(){
     _handleDeleteQuery = function (e){
         var index = _getIndex(e);
         userInputArray.splice(index,1);
-
-        if( userInputArray.length==0){
-            _changeChart();
-            _addQueryToList();
-        }else{
+        if(userInputArray.length<=0){
+            _setInputDisable(false);   
+        }
             _addQueryToList();
             data = {
                 data:userInputArray
             }
 		  $('body').trigger('userInputs',data);
-        }
+        
     },
         
     _handleEditQuery = function (e){
@@ -77,6 +75,13 @@ App.UIView = (function(){
 	_showFilterOptions = function (e) {
 		$(this).addClass('hide');
 		$('#filter-options').removeClass('hide');
+        if(userInputArray[0]!='undefined'){
+            _setInput("","","","",userInputArray[0].yearMin,userInputArray[0].yearMax,userInputArray[0].pagesMin,userInputArray[0].pagesMax,"","","");
+            
+            _setInputDisable(true);
+        }else{
+            _setInputDisable(false);
+        }
 	},
 		
 	_updateMedium = function (e) {
@@ -118,6 +123,7 @@ App.UIView = (function(){
             if($(this).attr('href')== "#filter-options"){
 		  	$('#filterButton').removeClass('hide');
             $('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
+            _setInputDisable(false);
 		}else{
             $('body').trigger('static',$(this).attr('href').replace('#static',''));
         }
@@ -146,7 +152,7 @@ App.UIView = (function(){
 				medium: selectedMedium
         };
         
-        _setInput("","","","","","","","","","","");
+        
         
         
        	if(userInput.yearMin =="") {
@@ -163,12 +169,26 @@ App.UIView = (function(){
 	   	}
 
         userInputArray.push(userInput);
+
+        _setInput("","","","",userInputArray[0].yearMin,userInputArray[0].yearMax,userInputArray[0].pagesMin,userInputArray[0].pagesMax,"","","");
+            
+            _setInputDisable(true);
+    
+        
+        
         _addQueryToList();
 		selectedLanguage ="";
 		selectedMedium="";
         $('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html("Sprache");
         $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
 	},
+    
+    _setInputDisable = function(bool) {
+        $('#yearMin').prop('disabled',bool);
+        $('#yearMax').prop('disabled',bool);
+        $('#pagesMin').prop('disabled',bool);
+        $('#pagesMax').prop('disabled',bool);
+    },
 	
 	_addQueryToList = function(){
         querylist.empty();
@@ -197,7 +217,7 @@ App.UIView = (function(){
                 kw2: "",
                 author: "",
                 publisher: "",
-                yearMin: 0,
+                yearMin: 1940,
                 yearMax: 2017,
                 pagesMin: 0,
                 pagesMax: 9999,
@@ -220,16 +240,9 @@ App.UIView = (function(){
         var counter = 0;
         e.preventDefault();
 		$('#chartWrapper').removeClass('hide');
-		
-		$('#inputs').find('input').each(function() {
-            if($(this).val() != ""){
-                counter++;
-            }
-        });
         
-        if (counter>=1||userInputArray.length<1){
-            _getInput($(this).text()); 
-        }
+		_getInput($(this).text()); 
+        _setInputDisable(false);
 
 		for (var i = 0; i < userInputArray.length; i++) {
 				userInputArray[i].req = request;

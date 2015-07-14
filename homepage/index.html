@@ -153,15 +153,34 @@
 				<!-- #static4 -->
 					<div id="static4" class="content hide"></div>
 				<!-- chart -->
+					<div id="chartWrapper">
+                	<div class="info hide panel panel-default" id="info-text-pie">
+						<div class="panel-heading">
+							<h1>Informationen zum Diagram</h1>
+						</div>
+						<div class="panel-body">
+                        	<p><b>Aus-/Einblenden:</b> Sie können bestimmte Anteile des Diagrams <b>aus- oder einblenden</b>, indem Sie diese in der Legende anklicken.</p>
+							<p>Wenn sie mit der Maus über einen Anteil gehen, sehen sie die absolute Anzahl, sowie den prozentualen Anteil an den momentan angezeigten Ergebnissen.</p>
+						</div>	
+					</div>
                     
-					<div id="chartWrapper" class="row">
-                    <!--<div class="content hide" id="legend-container">
-                        <span id="staticText"></span>
-                            <span id="data-one"></span>
-                            <span id="data-two"></span>
-                            <span id="data-three"></span>
-                        <span id="staticTextTwo"></span>
-                    </div>-->
+					<div class="info hide panel panel-default" id="info-text-column">
+                        <div class="panel-heading">
+							<h1>Informationen zum Diagram</h1>
+						</div>
+						<div class="panel-body">
+                        	<p><b>Zoomen:</b> Sie können mit der Maus ein Fenster nach rechts oder links über der Visualisierung aufziehen, um diesen Bereich genauer anzuzeigen</p>
+							<p>Über den Button "reset zoom" gelangen sie wieder zur ursprünglichen Ansicht</p>
+						</div>	
+                    </div>
+					<div class="info hide panel panel-default" id="info-text-area">
+                        <div class="panel-heading">
+							<h1>Informationen zum Diagram</h1>
+						</div>
+						<div class="panel-body">
+                        	<p><b>Aus-/Einblenden:</b> Sie können bestimmte Anteile des Diagrams <b>aus- oder einblenden</b>, indem Sie diese in der Legende anklicken.</p>
+						</div>
+                    </div>
                         
 					<div id="chartContainer" class="col-md-10">
 						
@@ -173,12 +192,12 @@
     <span class="caret"></span>
   </button>
   <ul id="x-axis-drowdown" class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a>Bibliotheken</a></li>
-    <li><a>Seitenzahl</a></li>
-    <li><a>Medium</a></li>
-	<li><a>Sprache</a></li>
-	<li><a>Erscheinungsjahr</a></li>
-	<li><a>Vergleich</a></li>
+    <li><a href='#chartWrapper'>Bibliotheken</a></li>
+    <li><a href='#chartWrapper'>Seitenzahl</a></li>
+    <li><a href='#chartWrapper'>Medium</a></li>
+	<li><a href='#chartWrapper'>Sprache</a></li>
+	<li><a href='#chartWrapper'>Erscheinungsjahr</a></li>
+	<li><a href='#chartWrapper'>Vergleich</a></li>
   </ul>
 </div>
 					</div>

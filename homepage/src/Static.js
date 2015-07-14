@@ -53,6 +53,7 @@ App.Static = (function(){
         var input =_createInput("Sprache","","", 1940);
         userInputArray.push(input);
         _trigger();
+		//$('body').trigger('hideLanguagePices');
     },
         
     _trigger = function () {
