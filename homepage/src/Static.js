@@ -24,9 +24,9 @@ App.Static = (function(){
     },
         
     _showStatic1Chart = function () {
-		var input1 = _createInput("Erscheinungsjahr", "html", "",  1992),
+		var input1 = _createInput("Erscheinungsjahr", "javascript", "",  1992),
 			input2 = _createInput("Erscheinungsjahr", "css", "", 1992),
-			input3 = _createInput("Erscheinungsjahr", "javascript", "", 1992);
+			input3 = _createInput("Erscheinungsjahr", "html5", "", 1992);
 
 		userInputArray.push(input1);
 		userInputArray.push(input2);

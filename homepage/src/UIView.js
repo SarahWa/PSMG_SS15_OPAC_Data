@@ -30,12 +30,7 @@ App.UIView = (function(){
     _handleDeleteQuery = function (e){
         var index = _getIndex(e);
         userInputArray.splice(index,1);
-<<<<<<< HEAD
-        
-        _addQueryToList();
-        data = {
-            data:userInputArray
-=======
+
         if( userInputArray.length==0){
             _changeChart();
             _addQueryToList();
@@ -45,7 +40,6 @@ App.UIView = (function(){
                 data:userInputArray
             }
 		  $('body').trigger('userInputs',data);
->>>>>>> origin/code-quali
         }
     },
         
@@ -64,7 +58,7 @@ App.UIView = (function(){
             index = $(li).index();
         index = index/2;
         return index;
-    }
+    },
         
     _setInput = function (kw1,kw2,author,publisher,yearMin,yearMax,pagesMin,pagesMax,place,language,medium){
         $("#kw1").val(kw1);
@@ -221,74 +215,6 @@ App.UIView = (function(){
         }
 		$('body').trigger('userInputs',data);
 	},
-		
-<<<<<<< HEAD
-	_showStatic1Chart = function () {
-		var input1 =_createInput("Erscheinungsjahr", "html", "",  1994),
-			input2 = _createInput("Erscheinungsjahr", "css", "", 1994),
-			input3 = _createInput("Erscheinungsjahr", "html5", "", 1994);
-        request="Erscheinungsjahr";
-        
-		userInputArray.push(input1);
-		userInputArray.push(input2);
-		userInputArray.push(input3);
-		data = {
-			data:userInputArray
-		}
-		$('body').trigger('userInputs',data);
-	},
-		
-	_showStatic2Chart = function () {
-		var input1 = _createInput("Erscheinungsjahr", "", "book", 1980),
-			input2 = _createInput("Erscheinungsjahr", "", "ebook", 1980);
-        request = "Erscheinungsjahr";
-		userInputArray.push(input1);
-		userInputArray.push(input2);
-		data = {
-			data:userInputArray
-		}
-		$('body').trigger('userInputs',data);
-	},
-		
-	_showStatic3Chart = function () {
-		var input = _createInput("Verlage", "", "", 1940);
-		userInputArray.push(input);
-        request="Verlage";
-		data = {
-			data:userInputArray
-		}
-		$('body').trigger('userInputs',data);
-	},
-        
-    _showStatic4Chart = function(){
-        var input =_createInput("Sprache","","", 1940);
-        userInputArray.push(input);
-        request="Sprache";
-        data = {
-			data:userInputArray
-		}
-		$('body').trigger('userInputs',data);
-    },
-		
-	_createInput = function (req, kw1, medium, minyear) {
-		var input = {req: req,
-                kw1: kw1,
-                kw2: "",
-                author: "",
-                publisher: "",
-                yearMin: minyear,
-                yearMax: 2017,
-                pagesMin: 0,
-                pagesMax: 9999,
-                place: "",
-				language: "",
-				medium: medium,
-				num: userInputArray.length
-			}
-		return input;
-	},
-=======
->>>>>>> origin/code-quali
       
 	_showChart = function (e) {
         var counter = 0;
