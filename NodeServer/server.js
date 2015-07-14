@@ -227,7 +227,6 @@
      */
     function start() {
         server.use(cors());
-		// ersten parameter als byKeyword/byYear/byBib/byPages/byMedium -> in eine Methode -> if(by...) -> getMatches
 		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*",
 			function (req, res) {
 			var request = req.params[0],

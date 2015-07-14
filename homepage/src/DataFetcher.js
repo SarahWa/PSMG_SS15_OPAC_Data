@@ -10,9 +10,9 @@ App.DataFetcher = (function(){
 				data: input
 			};
 		getData(data);
+		
     },
-        
-        
+		
     getData = function(data){
         
         var url="",
@@ -53,13 +53,14 @@ App.DataFetcher = (function(){
     },
         
     _serverResponse = function(data) {
-        responseDataArray.push(data);
+       
+		responseDataArray.push(data);
         if(responseDataArray.length==length){
             response =  {
                 data: responseDataArray
             }
             $('body').trigger('serverResponse',response);
-            responseDataArray=[];
+			responseDataArray=[];
         }
     };
     
