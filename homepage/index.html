@@ -28,11 +28,11 @@
                 <li>
                     <a href="#filter-options">eigene Filter</a>
                 </li>
-                <li>
-                    <a href="#static1">HTML - HTML5 - CSS</a>
+				<li>
+                    <a href="#static1">Javascript - CSS - HTML5 </a>
                 </li>
                 <li>
-                    <a href="#static2">Bücher-elektronische Ressource</a>
+                    <a href="#static2">Bücher - elektronische Ressource</a>
                 </li>
                 <li>
                     <a href="#static3">Top Verlage</a>
@@ -53,13 +53,16 @@
 			<content id="page-content-wrapper">
 				<div id="main-content" class="container-fluid">
 				<!-- #start -->
-					<div id="start" class="content">
-						<h1>Willkommen!</h1>
-
+					<div id="start" class="content panel panel-default">
+						<div class="panel-heading">
+							<h1>Willkommen!</h1>
+						</div>
+						<div class="panel-body">
                         <p>Dieser Teil des OPAC Datensatzes enthält alle Bücher aus dem Fachbereich der Informatik. Mit diesem Tool kann der Datensatz explorativ untersucht werden. Ausgangspunkt bildet die Visualisierung der Bücher, verteilt auf die unterschiedlichen Bibliotheken. Über das Dropdown-Menü kann die Einheit der x-Achse beliebig verändert werden. Über den Navigationspunkt "eigene Filter" kann der Datensatz nach Stichwörtern und anderen Filteroptionen durchsucht werden. Statische Graphiken interessanter Zusammenhänge lassen sich über die Navigationsleiste finden.<br></br>
                     <b>Anzahl der Daten:</b> 24194 gespeicherte Ressourcen<br></br>
                 <b>Fachrichtung:</b> Informatik (Monographien)</p>
-					</div>
+					</div>	
+				</div>
 					
 				<!-- #filteroptions -->
 					<div>
@@ -152,20 +155,18 @@
 				<!-- chart -->
                     
 					<div id="chartWrapper" class="row">
-                    <div class="content hide" id="legend-container">
+                    <!--<div class="content hide" id="legend-container">
                         <span id="staticText"></span>
                             <span id="data-one"></span>
                             <span id="data-two"></span>
                             <span id="data-three"></span>
                         <span id="staticTextTwo"></span>
-                    </div>
+                    </div>-->
                         
-					<div id="chartContainer">
+					<div id="chartContainer" class="col-md-10">
 						
 					</div>
-					<div id="controlContainer" class="col-md-9 col-md-offset-1 content">
-					</div>
-					<div id="requestselector" class="col-md-2 col-md-offset-10">
+					<div id="requestselector" class="col-md-2">
 							<div class="dropup content" id="filterButton">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     x-Achse
@@ -177,10 +178,12 @@
     <li><a>Medium</a></li>
 	<li><a>Sprache</a></li>
 	<li><a>Erscheinungsjahr</a></li>
-	<li><a>Stichwort</a></li>
+	<li><a>Vergleich</a></li>
   </ul>
 </div>
 					</div>
+					
+					
 				</div>
 			
     </content>
@@ -198,10 +201,10 @@
             <p class="col-md-2">Verlag:<%= publisher %></p>
             <p class="col-md-2">Ort:<%= place %></p>
 			<div class="col-md-3">
-				<button id="button-edit-<%= num %>" type="button" class="btn btn-default edit" data-toggle="tooltip" data-placement="left" title="bearbeiten" aria-label="bearbeiten">
+				<button id="button-edit" type="button" class="btn btn-default edit" data-toggle="tooltip" data-placement="left" title="bearbeiten" aria-label="bearbeiten">
   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 </button>
-<button id="button-delete-<%= num %>" type="button" class="btn btn-default delete" data-toggle="tooltip" data-placement="left" title="bearbeiten" aria-label="bearbeiten">
+<button id="button-delete" type="button" class="btn btn-default delete" data-toggle="tooltip" data-placement="left" title="bearbeiten" aria-label="bearbeiten">
   <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 </button>
 </div>   
@@ -219,18 +222,20 @@
     <script src="libs/jquery-2.1.3.js"></script>
 	<script src="libs/bootstrap.min.js"></script>
     <script src="libs/underscore.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/data.js"></script>
     <script src="src/OpacApp.js"></script>
     <script src="src/Controller.js"></script>
     <script src="src/ChartView.js"></script>
 	<script src="src/UIView.js"></script>
     <script src="src/DataFetcher.js"></script>
+    <script src="src/Static.js"></script>
 	
  
     <script>
-    
-    App.init();
-    
+    $(function() {
+    	App.init();
+    });
     
     </script>
 	

@@ -5,10 +5,15 @@
 .minPaddingBottom {
 	padding-bottom: 10px;
 }
+
+#chartContainer {
+	margin-top: 30px;
+}
+
 #buttonShowChart {
 	height: 2em;
 	color: black;
-	background-color: #99CCFF;
+	background-color: #7cb5ec;
 }
 
 #buttonShowChart:hover {
@@ -23,6 +28,10 @@
 
 #filter-options {
 	height: auto;
+}
+
+#requestselector {
+	margin-top: 550px;
 }
 
 input.field {

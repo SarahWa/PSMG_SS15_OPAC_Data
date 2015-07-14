@@ -7,42 +7,73 @@
     <body>
     
     <input type="file" id="csv-file" name="files"/>
-        
+	<button id="saveAll" disabled="disabled">Save all</button>
+	<!--<button id="saveBookData" disabled="disabled">Save bookdata</button>
+	<button id="saveBookText" disabled="disabled">Save booktext</button>-->
     <script src="libs/papaparse.min.js"></script>
+	<script src="libs/filesaver.js"></script>
     <script src="libs/jquery-2.1.3.js"></script>
     
         
         
     <script>
         
-  var data;
- 
-  function handleFileSelect(evt) {
+  	var data,
+		csvAll;
+  
+	function handleFileSelect(evt) {
     var file = evt.target.files[0];
  
     Papa.parse(file, {
         delimiter: ",",
-      header: true,
-      dynamicTyping: false,
-      complete: function(results) {
-        data = results;
-          
-          
-        //changePages(); 
-        //changeSignature();
-       // toLowerCase();
-       // replace();
-        //changeYear();
-      // getNumDifEntries();
-        
-          
-       var csv = Papa.unparse(data, {
+      	header: true,
+      	dynamicTyping: false,
+      	complete: function(results) {
+        	data = results;
+       // for schleife hier   
+       changePages(); 
+       changeSignature();
+       toLowerCase();
+       replace();
+       changeYear();
+	   //splitCSV();
+      //	getNumDifEntries();	
+			
+		/*csvBookData = Papa.unparse(data1, {
               delimiter: ",",
-              header: true
-              
+              header: true    
           });
-       //console.log(csv);
-          var arrayVerlag = [],
+		$("#saveBookData").prop('disabled', false);
+			
+		csvBookText = Papa.unparse(data2, {
+              delimiter: ",",
+              header: true    
+          });
+		$("#saveBookText").prop('disabled', false);*/
+			
+		csvAll = Papa.unparse(data, {
+              delimiter: ",",
+              header: true    
+          });
+		$("#saveAll").prop('disabled', false);
+			
+		
+// zum splitten der csv in 2 oder mehrere teile (anderes serverscript)
+				
+		/*var csv2 = Papa.unparse(data2, {
+		  delimiter: ",",
+		  header: true    
+        });
+		var blob2 = new Blob([csv2], {type: "text/plain;charset=utf-8"});
+		saveAs(blob2, ['booktext.csv']);
+			*/
+			
+// -----------------------------------------------------------------------------------------------
+			
+// nur zu Analysezwecken!!!
+			
+	//console.log(csv);
+         /* var arrayVerlag = [],
               arrayNum = [],
               result = [],
               max = 0,
@@ -72,12 +103,9 @@
              max=0;
              maxI=0;
          }
-          console.log(result);
-           
-      }
-    });
+          
       
-    /*Ü = &#xc9;u
+    Ü = &#xc9;u
     
     Ä = l&#xc9;a
     
@@ -85,8 +113,40 @@
 
     */
 
+// ---------------------------------------------------------------------------------
+  		}
+	});
   }
        
+	
+// für evtl. neues serverscript
+		function splitCSV () {
+			var objForData1,
+				objForData2; 
+			for (var i =0; i<data.data.length;i++){
+				objForData1 = { 
+					 id : i,
+					 language: data.data[i].language,
+					 ebook: data.data[i].ebook,
+					 publishingyear: data.data[i].publishingyear,
+					 signatures: data.data[i].signatures,
+					 pages: data.data[i].pages
+			 	}
+				objForData2 = {
+					id: i,
+					title: data.data[i].title,
+					subtitle: data.data[i].subtitle,
+					tags: data.data[i].subtitle
+				}
+
+				data1.data.push(objForData1);
+				data2.data.push(objForData2);
+			 }
+		}
+// -------------------------------------------------------------
+		
+		
+// nur zu Analysezwecken!!!!!
         function getNumDifEntries(){
              var array = [];
           
@@ -103,7 +163,7 @@
           }
          console.log(array.length);
         }
-        
+// ----------------------------------------------------------------
         
         
         function replace (){
@@ -114,10 +174,12 @@
                 data.data[i].publishingplace = data.data[i].publishingplace.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("l&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
                 data.data[i].author = data.data[i].author.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
                 data.data[i].tags = data.data[i].tags.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                
+                data.data[i].language.replace("de", "ger");
             } 
 
         }
+		
+		
         function toLowerCase(){
             for (var i = 0; i < data.data.length-1; i++) {
 				data.data[i].title = data.data[i].title.toLowerCase();
@@ -126,10 +188,6 @@
                 data.data[i].publisher = data.data[i].publisher.toLowerCase();
                 data.data[i].publishingplace = data.data[i].publishingplace.toLowerCase();
                 data.data[i].author = data.data[i].author.toLowerCase();
-				if (data.data[i].language.indexOf("de") >=0) {
-					data.data[i].language = "ger";
-				}
-                
             }  
             
             
@@ -282,11 +340,28 @@
                 data.data[i].pages = realresult;
             } 
         }
+		
+		function saveAll() {
+			var blob = new Blob([csvAll], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, ['opac_st.csv']);
+		}
+		
+		/*function saveBookData() {
+			var blob = new Blob([csvBookData], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, ['bookdata.csv']);
+		}
+		function saveBookText() {
+			var blob = new Blob([csvBookText], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, ['booktext.csv']);
+		}*/
  
         
         
   $(document).ready(function(){
     $("#csv-file").change(handleFileSelect);
+	$("#saveAll").on('click', saveAll);
+	/*$("#saveBookData").on('click', saveBookData);
+	$("#saveBookText").on('click', saveBookText);*/
   });
     </script>    
     

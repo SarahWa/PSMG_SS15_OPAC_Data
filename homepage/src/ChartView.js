@@ -1,129 +1,179 @@
 App.ChartView = (function(){
     var that = {},
-       	chartData,
 		options,
-		chart,
-        colorArrayBars = ["#3366cc","#3366cc","#dc3912","#dc3912","#ff9900","#ff9900","#109618","#109618","#990099","#990099","#0099c6","#0099c6","#dd4477","#dd4477"],
     
     init = function (){
-		google.load('visualization', '1.1', {'packages':['controls', 'corechart', 'bar']});
-		$('#chartContainer').height(750);
+		$('#chartContainer').height(600);
 	},
 		
-	_renderChart = function(data, dataLength) {
-		var title,
-            j,
-			row = [],
-			dashboard = new google.visualization.Dashboard(
-            document.getElementById('chartWrapper'));
-		console.log(data.data[0].req);
-		chartData = new google.visualization.DataTable();
-		chartData.addColumn('string', data.data[0].req);
-		programmaticSlider = new google.visualization.ControlWrapper({
-          'controlType': 'NumberRangeFilter',
-          'containerId': 'controlContainer',
-          'options': {
-            'filterColumnLabel': 'Anzahl',
-            'ui': {'labelStacking': 'vertical'}
-          }
-        });
-		
-		if (dataLength <= 1) {
-		/*chartData.addColumn('string', data.data[0].req);*/
-			chartData.addColumn('number', "Anzahl");
-			for (var i = 0; i< data.data[0].num.length; i++) {
-				chartData.addRow([data.data[0].num[i].name, data.data[0].num[i].num]);
-			}
-            if(data.data[0].req!="Sprache"){
-			programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
-				'containerId': 'chartContainer',
-				'options': {
-				  title: "Anzahl der gefundenen Ressourcen, unterteilt nach:  "+data.data[0].req,
-					hAxis: {
-
-					},
-					vAxis: {
-						title: "Anzahl"
-					},
-					legend: {
-						position: 'none'
-					}
-				}
-      		});
-            }else{
-                programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'PieChart',
-				'containerId': 'chartContainer',
-				'options': {
-				  title: "Anzahl der gefundenen Ressourcen, unterteilt nach:  "+data.data[0].req,
-					hAxis: {
-
-					},
-					vAxis: {
-						title: "Anzahl"
-					}
-					
-				}
-                                                                            });
-            }
+	_getDataForSingleCharts = function (data) {
+		var categoryArray = [],
+			seriesArray = [];
+		categoryArray.push(null);
+		seriesArray.push("Anzahl");
+		if (data.length == 1) {
+			categoryArray.push("Alle Ressourcen");
+			seriesArray.push(data[0].num);
 		}
 		else {
-			for (var i = 0; i < data.data.length; i++) {
-			chartData.addColumn('number', "Anzahl");
+			for(var i = 0; i < data.length; i++) {
+				categoryArray.push(data[i].name);
+				seriesArray.push(data[i].num);
+			}
 		}
-		for (var i = 0; i< data.data[0].num.length; i++) {
-			j = 0;
-			row.push(data.data[0].num[i].name);
-			while (j<data.data.length) {
-				row.push(data.data[j].num[i].num);
+		return [categoryArray , seriesArray];
+	},
+		
+	_getLegendString = function (data) {
+		var resultString = "";
+		if (data.kw1 != "") {
+			resultString += data.kw1 + " ";
+		}
+		if (data.kw2 != "") {
+			resultString += data.kw2 + " ";
+		}
+		if (data.language != "") {
+			resultString += data.language + " ";
+		}
+		if (data.medium != "") {
+			resultString += data.medium + " ";
+		}
+		if (data.place != "") {
+			resultString += data.kw2 + " ";
+		}
+		if (data.publisher != "") {
+			resultString += data.publisher + " ";
+		}
+		if (data.author != "") {
+			resultString += data.author;
+		}
+		return resultString;
+	},
+		
+	_getDataForComparedCharts = function (data) {
+		var categoryArray = [],
+			resultArray = [],
+			seriesArray = [],
+			j=0;
+		categoryArray.push(null);
+		for (var i = 0; i < data[0].num.length; i++) {
+			categoryArray.push(data[0].num[i].name);
+		}
+		resultArray.push(categoryArray);
+		for(var i = 0; i < data.length; i++) {
+			seriesArray.push(_getLegendString(data[i]));					
+			j=0;
+			while (j<data[i].num.length) {
+				seriesArray.push(data[i].num[j].num);
 				j++;
 			}
-			chartData.addRow(row);
-			row = [];
+			resultArray.push(seriesArray);
+			seriesArray = [];
 		}
-        title = data.data[0].req;
-        if(title =="Stichwort"){
-            title = ""
-        }
-		programmaticChart  = new google.visualization.ChartWrapper({'chartType': 'ColumnChart',
-        'containerId': 'chartContainer',
-        'options': {
-    	  title: "Vergleich der jeweils gefundenen Ressourcen, unterteilt nach: Filteranfrage, "+title,
-			hAxis: {
-				
-			},
-			vAxis: {
-				title: "Anzahl"
-			},
-            legend: {
-                position: 'none'
-            }
-        }
-      });
-		}
-		//chartData.getSortedRows({column: 1, desc: true});
 		
-		dashboard.bind(programmaticSlider, programmaticChart);
-		dashboard.draw(chartData);
+		return resultArray;
 	},
-    
-    _fillQueryBackground = function (){
-        $('li.template').each(function (i){
-            $(this).css({"background":colorArrayBars[i]});
-        });
-    },
-        
-    _legende = function(){
-       $("#data-one").css({"color":colorArrayBars[0],"font-weight":"bold"});
-       $("#data-two").css({"color":colorArrayBars[2],"font-weight":"bold"}); 
-       $("#data-three").css({"color":colorArrayBars[4],"font-weight":"bold"});    
-    },
-        
+	
+	_showSingleColumnChart = function(data, req) {
+		var dataArray = _getDataForSingleCharts(data);
+		
+		options = {
+			chart: {
+				renderTo: 'chartContainer',
+				type: 'column',
+				zoomType: 'x'
+			},
+
+			title: {
+				text: 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req
+			},
+			data: {
+				columns: dataArray
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: 'Anzahl an Ressourcen'
+				}
+			},
+			legend: {
+				enabled: false
+			},
+			credits: {
+				enabled: false
+  			},
+			plotOptions: {
+				pie: {
+					showInLegend: true,
+					allowPointSelect: true,
+					dataLabels: {
+						enabled: false,
+					}
+            	},
+				
+       		},
+			
+			tooltip: {
+				pointFormat: '{series.name}: <b>{point.y} </b>'
+			}
+    	};
+		var chart1 = new Highcharts.Chart(options);
+	},
+		
+
+	_showSinglePieChart = function (data, req) {
+		options.chart.type = 'pie';
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.legend.enabled = true;
+		options.data.columns = _getDataForSingleCharts(data);
+		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
+		var chart1 = new Highcharts.Chart(options);
+	},
+		
+	_showComparedAreaChart= function (data, req) {
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.chart.type = 'area';
+		options.legend.enabled = true;
+		options.tooltip.crosshairs = [true];
+		options.tooltip = {
+    		crosshairs: true,
+    		shared: true,
+    		headerFormat: '{point.key}<table>',
+    		pointFormat: '<tr><td style=\"color: {series.color}\">{series.name}: <b></td><td>{point.y} </b></td></tr>',
+			useHTML: true,
+    		footerFormat: '</table>',
+		},
+		options.data.columns = _getDataForComparedCharts(data);
+		var chart1 = new Highcharts.Chart(options);
+	},
+		
+	_showComparedColumnChart = function (data, req) {
+		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
+		options.chart.type = 'column';
+		options.legend.enabled = true;
+		options.tooltip.pointFormat = '{series.name}: <b>{point.y} </b>'
+		options.data.columns = _getDataForComparedCharts(data);
+		var chart1 = new Highcharts.Chart(options);
+	},
+         
         
     renderChart = function(data)   {
-		_renderChart(data, data.data.length);
-        _fillQueryBackground();
-        _legende();
-		
+		if(data.length <=1) {
+			if(data[0].req == "Sprache" || data[0].req == "Medium" || data[0].req == "Verlage") {
+				_showSinglePieChart(data[0].num, data[0].req);
+			}
+			else {
+				_showSingleColumnChart(data[0].num, data[0].req);
+			}
+		}
+		else {
+			if (data[0].req == "Erscheinungsjahr" || data[0].req == "Seitenzahl"){
+				_showComparedAreaChart(data, data[0].req);
+			}
+			else {
+				_showComparedColumnChart(data, data[0].req);
+			}
+		}
     };
     
     
