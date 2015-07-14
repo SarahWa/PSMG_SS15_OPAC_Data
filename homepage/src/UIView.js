@@ -35,6 +35,7 @@ App.UIView = (function(){
             index = $(li).index();
         index = index/2;
         userInputArray.splice(index,1);
+        
         _addQueryToList();
         data = {
             data:userInputArray
