@@ -14,8 +14,7 @@ App.UIView = (function(){
         selectedMedium = "";
 		selectedLanguage = "";
 	},
-		
-		
+	
 	_initEvents = function () {
 		$(".sidebar-nav a").on('click', _showPage);
 		$("#buttonShowChart").on('click', _showChart);
@@ -25,47 +24,60 @@ App.UIView = (function(){
 		$('#medium-dropdown li').on('click', _updateMedium);
 		$('#button-show-filter').on('click', _showFilterOptions);
         $("#querylist").on('click', '.edit',_handleEditQuery);
-        $("#querylist").on('click', '.delete',_handleDeleteQuery);
-       
+        $("#querylist").on('click', '.delete',_handleDeleteQuery);   
 	},
         
     _handleDeleteQuery = function (e){
-        var li = e.currentTarget.parentElement.parentElement,
-            ul = e.currentTarget.parentElement.parentElement.parentElement,
-            index = $(li).index();
-        index = index/2;
+        var index = _getIndex(e);
         userInputArray.splice(index,1);
+<<<<<<< HEAD
         
         _addQueryToList();
         data = {
             data:userInputArray
+=======
+        if( userInputArray.length==0){
+            _changeChart();
+            _addQueryToList();
+        }else{
+            _addQueryToList();
+            data = {
+                data:userInputArray
+            }
+		  $('body').trigger('userInputs',data);
+>>>>>>> origin/code-quali
         }
-		$('body').trigger('userInputs',data);
-        
-        
     },
         
     _handleEditQuery = function (e){
-         var li = e.currentTarget.parentElement.parentElement,
-            ul = e.currentTarget.parentElement.parentElement.parentElement,
-            index = $(li).index();
-        index = index/2;
+        var index = _getIndex(e);
         input = userInputArray[index];
         $('#filter-options').removeClass('hide');
         $('#button-show-filter').addClass('hide');
-        $("#kw1").val(input.kw1);
-        $("#kw2").val(input.kw2);
-        $("#author").val(input.author);
-        $("#publisher").val(input.publisher);
-        $("#yearMin").val(input.yearMin);
-        $("#yearMax").val(input.yearMax);
-        $("#pagesMin").val(input.pagesMin);
-        $("#pagesMax").val(input.pagesMax);
-        $("#place").val(input.place);
-		$("#language").val(input.language);
-		$("#medium").val(input.medium);
+        _setInput(input.kw1,input.kw2,input.author,input.publisher,input.yearMin,input.yearMax,input.pagesMin,input.pagesMax,input.place,input.language,input.medium);
+       
         userInputArray.splice(index,1);
         _addQueryToList();
+    },
+    _getIndex = function (e){
+        var li = e.currentTarget.parentElement.parentElement,
+            index = $(li).index();
+        index = index/2;
+        return index;
+    }
+        
+    _setInput = function (kw1,kw2,author,publisher,yearMin,yearMax,pagesMin,pagesMax,place,language,medium){
+        $("#kw1").val(kw1);
+        $("#kw2").val(kw2);
+        $("#author").val(author);
+        $("#publisher").val(publisher);
+        $("#yearMin").val(yearMin);
+        $("#yearMax").val(yearMax);
+        $("#pagesMin").val(pagesMin);
+        $("#pagesMax").val(pagesMax);
+        $("#place").val(place);
+		$("#language").val(language);
+		$("#medium").val(medium);
     },
 		
 	_showFilterOptions = function (e) {
@@ -82,9 +94,7 @@ App.UIView = (function(){
         }else{
             $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html(selectedMedium);
             
-        }
-        
-        
+        }  
 	},
 		
 	_updateLanguage = function (e) {
@@ -109,43 +119,20 @@ App.UIView = (function(){
 		if ($(this).attr('href')=="#start") {
 			request = "Bibliotheken";
 			$('#filterButton').removeClass('hide');
-			$('#controlContainer').removeClass('hide');
-            
 			_changeChart();
-		}
-		if($(this).attr('href')== "#filter-options"){
+		}else 
+            if($(this).attr('href')== "#filter-options"){
 		  	$('#filterButton').removeClass('hide');
-			$('#controlContainer').removeClass('hide');
             $('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
-		}
-		if ($(this).attr('href') == "#static1") {
-			_showStatic1Chart();
-            $('#legend-container').removeClass('hide');
-           $('#staticText').html("Das Diagramm zeigt alle Ressourcen des OPAC-Datensatzes <br></br> über die Themen ");
-             $('#data-one').html("HTML");
-            $('#data-two').html("CSS");
-            $('#data-three').html("HTML5");
-            $('#staticTextTwo').html("aufgelistet nach dem Erscheinungsjahr");
-            
-		}
-		if ($(this).attr('href') == "#static2") {
-			_showStatic2Chart();
-            $('#legend-container').removeClass('hide');
-             $('#staticText').html("Das Diagramm zeigt wie viele");
-            $('#data-one').html("Bücher/");
-            $('#data-two').html("Elektronische Ressourcen");
-            $('#data-three').html("");
-             $('#staticTextTwo').html(" im Laufe der Jahre erschienen sind");
-		}
-		if ($(this).attr('href') == "#static3") {
-			_showStatic3Chart();
-		}
-        if ($(this).attr('href') == "#static4") {
-			_showStatic4Chart();
-		}
+		}else{
+            $('body').trigger('static',$(this).attr('href').replace('#static',''));
+        }
+        
 		$('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
 			
 	},
+        
+   
 		
 	
 	_getInput = function (request) {
@@ -162,21 +149,11 @@ App.UIView = (function(){
                 pagesMax: $("#pagesMax").val(),
                 place: $("#place").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue") ,
 				language: selectedLanguage,
-				medium: selectedMedium,
-                num: userInputArray.length
+				medium: selectedMedium
         };
         
-        $("#kw1").val("");
-        $("#kw2").val("");
-        $("#author").val("");
-        $("#publisher").val("");
-        $("#yearMin").val("");
-        $("#yearMax").val("");
-        $("#pagesMin").val("");
-        $("#pagesMax").val("");
-        $("#place").val("");
-		$("#language").val();
-		$("#medium").val();
+        _setInput("","","","","","","","","","","");
+        
         
        	if(userInput.yearMin =="") {
 		   userInput.yearMin = 1940;
@@ -245,6 +222,7 @@ App.UIView = (function(){
 		$('body').trigger('userInputs',data);
 	},
 		
+<<<<<<< HEAD
 	_showStatic1Chart = function () {
 		var input1 =_createInput("Erscheinungsjahr", "html", "",  1994),
 			input2 = _createInput("Erscheinungsjahr", "css", "", 1994),
@@ -309,6 +287,8 @@ App.UIView = (function(){
 			}
 		return input;
 	},
+=======
+>>>>>>> origin/code-quali
       
 	_showChart = function (e) {
         var counter = 0;
@@ -332,21 +312,13 @@ App.UIView = (function(){
         $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
         $("#filter-options").addClass("hide");
 		$("#button-show-filter").removeClass("hide");
-		data = {
+		
+        data = {
             data:userInputArray
         }
         $('body').trigger('userInputs',data);
         
 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	that.init = init;
 	

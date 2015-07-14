@@ -1,18 +1,19 @@
 App.Controller = (function(){
     var that = {},
         dataFetcher,
-        uIView,
+        static,
         chartView,
     
     
     init = function (){
-        dataFetcher =  App.DataFetcher;
-        uIView = App.UIView;
+        App.UIView.init($("#querylist"));
+        dataFetcher = App.DataFetcher;
 		chartView = App.ChartView;
+        static = App.Static;
         
         dataFetcher.init();
-        uIView.init($("#querylist"));
         chartView.init();
+        static.init();
         
         _initEvents();
         
@@ -23,10 +24,15 @@ App.Controller = (function(){
     _initEvents = function(){
         $('body').on("userInputs",_handleUserInputs);
         $('body').on("serverResponse",_handleServerResponse);
+        $('body').on("static",_handleStaticClicked);
     },
         
     _handleServerResponse = function(event, data){
       	chartView.renderChart(data.data);
+    },
+        
+    _handleStaticClicked = function (event,number){
+        static.showChart(number);
     },
         
     _handleUserInputs = function(event, data){

@@ -120,6 +120,7 @@ App.ChartView = (function(){
 		var chart1 = new Highcharts.Chart(options);
 	},
 		
+<<<<<<< HEAD
 	_showSinglePieChart = function (data, req) {
 		options.chart.type = 'pie';
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
@@ -130,6 +131,9 @@ App.ChartView = (function(){
 	},
 		
 	_showComparedAreaChart= function (data, req) {
+=======
+	_showComparedLineChart= function (data, req) {
+>>>>>>> origin/code-quali
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.chart.type = 'area';
 		options.legend.enabled = true;
