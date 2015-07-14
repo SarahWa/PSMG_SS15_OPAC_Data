@@ -30,16 +30,35 @@
       	dynamicTyping: false,
       	complete: function(results) {
         	data = results;
-       // for schleife hier   
-       changePages(); 
-       changeSignature();
-       toLowerCase();
-       replace();
-       changeYear();
-	   //splitCSV();
-      //	getNumDifEntries();	
+        
+            for (var i = 0; i<data.data.length-1;i++){
+                changePages(data.data[i]); //bringt Seitenanzah in die Form: 210
+                changeSignature(data.data[i]); //filtert aus Sugnatur Standortkennzeichen --> umwandlung in Passenden String
+                toLowerCase(data.data[i]);// ändert alle Einträge in kleinbuchstaben --> besser filterbar
+                replace(data.data[i]); //ersetzt Kodierung von Umlauten und Sonderzeichen
+                changeYear(data.data[i]); //bringt Erscheinungsjahr in die Form: 1990
+            }
+            
+            
+	       // splitCSV();
+           // getNumDifEntries();	
 			
-		/*csvBookData = Papa.unparse(data1, {
+		
+			
+		csvAll = Papa.unparse(data, {
+              delimiter: ",",
+              header: true    
+          });
+		$("#saveAll").prop('disabled', false);
+			
+		
+// zum splitten der csv in 2 oder mehrere teile (anderes serverscript)
+				
+		/*
+		var blob2 = new Blob([csv2], {type: "text/plain;charset=utf-8"});
+		saveAs(blob2, ['booktext.csv']);
+        
+        csvBookData = Papa.unparse(data1, {
               delimiter: ",",
               header: true    
           });
@@ -51,29 +70,11 @@
           });
 		$("#saveBookText").prop('disabled', false);*/
 			
-		csvAll = Papa.unparse(data, {
-              delimiter: ",",
-              header: true    
-          });
-		$("#saveAll").prop('disabled', false);
-			
-		
-// zum splitten der csv in 2 oder mehrere teile (anderes serverscript)
-				
-		/*var csv2 = Papa.unparse(data2, {
-		  delimiter: ",",
-		  header: true    
-        });
-		var blob2 = new Blob([csv2], {type: "text/plain;charset=utf-8"});
-		saveAs(blob2, ['booktext.csv']);
-			*/
-			
 // -----------------------------------------------------------------------------------------------
 			
 // nur zu Analysezwecken!!!
 			
-	//console.log(csv);
-         /* var arrayVerlag = [],
+         var arrayVerlag = [],
               arrayNum = [],
               result = [],
               max = 0,
@@ -105,13 +106,13 @@
          }
           
       
-    Ü = &#xc9;u
+   /* Ü = &#xc9;u
     
     Ä = l&#xc9;a
     
-    Ö = &#xc9;o
+    Ö = &#xc9;o*/
 
-    */
+    
 
 // ---------------------------------------------------------------------------------
   		}
@@ -147,61 +148,54 @@
 		
 		
 // nur zu Analysezwecken!!!!!
-        function getNumDifEntries(){
+        function getNumDifEntries(data){
              var array = [];
-          
-          for (var i =0; i<data.data.length;i++){
-             var curr = data.data[i].publisher;
-              console.log(array);
-             if(array.indexOf(curr)!=-1){
-                 array[array.indexOf(curr)]={verlag:curr, num:array[array.indexOf(curr)].num+1};
+             if(array.indexOf(data.publisher)!=-1){
+                 array[array.indexOf(data.publisher)]={verlag:data.publisher, num:array[array.indexOf(data.publisher)].num+1};
                  
              }else{
-                 array.push({verlag:curr, num:1});
+                 array.push({verlag:data.publisher, num:1});
              }
-           console.log(array);   
-          }
-         console.log(array.length);
+         console.log(array);   
         }
+        
+        
 // ----------------------------------------------------------------
         
         
-        function replace (){
-            for (var i = 0; i < data.data.length-1; i++) {
-                data.data[i].title = data.data[i].title.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].subtitle = data.data[i].subtitle.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].publisher = data.data[i].publisher.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].publishingplace = data.data[i].publishingplace.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("l&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].author = data.data[i].author.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].tags = data.data[i].tags.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
-                data.data[i].language.replace("de", "ger");
-            } 
-
+        function replace (data){
+            for (var i= 0;i<=10;i++){
+                data.title = data.title.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.subtitle = data.subtitle.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.publisher = data.publisher.replace("&#xc9;u","ue").replace("l&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.publishingplace = data.publishingplace.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("l&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.author = data.author.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.tags = data.data[i].tags.replace("&#xc9;u","ue").replace("&#xc9;A","ae").replace("&#xc9;o","oe").replace("&#xc9;a","ae").replace("&#xc9;U","ue").replace("&#xc9;O","oe").replace("&#xaf;-","").replace("&#xaf;","").replace("&#xd0;e","e");
+                data.language.replace("de", "ger");
+             
+            }
         }
 		
 		
-        function toLowerCase(){
-            for (var i = 0; i < data.data.length-1; i++) {
-				data.data[i].title = data.data[i].title.toLowerCase();
-				data.data[i].subtitle = data.data[i].subtitle.toLowerCase();
-				data.data[i].tags = data.data[i].tags.toLowerCase();
-                data.data[i].publisher = data.data[i].publisher.toLowerCase();
-                data.data[i].publishingplace = data.data[i].publishingplace.toLowerCase();
-                data.data[i].author = data.data[i].author.toLowerCase();
-            }  
+        function toLowerCase(data){
             
-            
+				data.title = data.title.toLowerCase();
+				data.subtitle = data.subtitle.toLowerCase();
+				data.tags = data.tags.toLowerCase();
+                data.publisher = data.publisher.toLowerCase();
+                data.publishingplace = data.publishingplace.toLowerCase();
+                data.author = data.author.toLowerCase();
         }
             
         
-        function changeSignature(){
+        function changeSignature(data){
             var currsig,
                 result,
                 realresult,
                 pattern = /[A-Z]?\s?[0-9]+\//g;
-            for(var i=0 ; i<data.data.length-1;i++){
+           
                 realresult="";
-                currsig = data.data[i].signatures;
+                currsig = data.signatures;
                 result = currsig.match(pattern);
                 
                 if (result!=null){
@@ -275,21 +269,20 @@
                     }
                     
                     
-                }
-                data.data[i].signatures = realresult;
-                
             }
+            data.signatures = realresult;
+                
             
         }
         
-        function changeYear() {
+        function changeYear(data) {
             var currYear,
                 result,
                 realresult,
                 pattern = /\[?[0-9]+\]?[0-9]+\[?[0-9]+\]?/g;
-            for(var i=0 ; i<data.data.length-1;i++){
+            
                 realresult=""; 
-                currPage = data.data[i].publishingyear;
+                currPage = data.publishingyear;
                 result = currPage.match(pattern);
                 
                 
@@ -309,21 +302,20 @@
                     } 
                     
                 }
-                data.data[i].publishingyear = realresult;
-            } 
+                data.publishingyear = realresult;
+             
             
             
         }
         
-        function changePages(){
+        function changePages(data){
             var currPage,
                 result,
                 realresult,
                 pattern = /[0-9]+\s[S{1}|p{1}]\./g;
-            for(var i=0 ; i<data.data.length-1;i++){
+            
                 realresult=""; 
-                currPage = data.data[i].pages;
-                
+                currPage = data.pages;
                 result = currPage.match(pattern);
                 
                 if(result!=null){
@@ -337,14 +329,16 @@
                     } 
                 
                 }
-                data.data[i].pages = realresult;
-            } 
+                data.pages = realresult;
+             
         }
 		
 		function saveAll() {
 			var blob = new Blob([csvAll], {type: "text/plain;charset=utf-8"});
 			saveAs(blob, ['opac_st.csv']);
 		}
+        
+        
 		
 		/*function saveBookData() {
 			var blob = new Blob([csvBookData], {type: "text/plain;charset=utf-8"});
