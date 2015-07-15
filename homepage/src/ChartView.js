@@ -206,7 +206,7 @@ App.ChartView = (function(){
     
     that.init = init;
     that.renderChart= renderChart;
-	that.updataLanguageChart = updateLanguageChart;
+	//that.updataLanguageChart = updateLanguageChart;
     
 
    return that; 
