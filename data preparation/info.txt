@@ -1,13 +1,16 @@
 1.Saxon:
   Anleitung: readme.txt im Ordner Saxon
 
-2. book.csv:
-  Dies ist die Datei nachdem sie mit saxon geparsed wurde und mit MoorXmlToCsvConverter in eine csv Datei umgewandelt wurde
+2. out.xml:
+  Dies ist die Datei nachdem sie mittels Saxon in eine neue xml Datei umgewandelt wurde. 
 
-3. Ordner Papaparse:
+3. book.csv:
+  Dies ist die Datei nachdem sie mit mit dem Tool "MoorXmlToCsvConverter" in eine csv Datei umgewandelt wurde
+
+4. Ordner Papaparse:
   Javascript Tool zur weiteren Datenaufbereitung:
 	- index.html aufrufen
-	- "book.csv" auswählen
-	- wenn der Button klickbar wird, Datei herunterladen
-  Diese aufbereitete Datei kann in den Ordner "NodeServer/data" kopiert werden (bereits vorhanden). 
+	- (zuvor erstellte) "book.csv" auswählen
+	- sobald der Button klickbar wird, kann die Datei heruntergeladen werden
+  Diese aufbereitete Datei kann in den Ordner "NodeServer/data" kopiert werden (bereits dort vorhanden). 
 
