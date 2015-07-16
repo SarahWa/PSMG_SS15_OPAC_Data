@@ -8,5 +8,5 @@ Anleitung:
 		-> -xsl: xsl-script
 		-> -o: output xml file
 		(-> -tree:tinyc = tiny condensed (braucht weniger Speicher))
-	- Auch wenn tiny condensed weniger Speicher braucht, musste ich meine Datei einmal splitten (st1.xml und st2.xml, jeweils konvertieren und danach wieder zusammenfügen
+	- Auch wenn tiny condensed weniger Speicher braucht, musste ich meine Datei einmal splitten (st1.xml und st2.xml, jeweils konvertieren und danach (out1.xml und out2.xml) wieder zusammenfügen
 

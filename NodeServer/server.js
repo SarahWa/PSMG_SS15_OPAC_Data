@@ -227,7 +227,7 @@
      */
     function start() {
         server.use(cors());
-		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*",
+		server.get("/api/get/*/*/*/*/*/*/*/*/*/*/*/*/*/*",
 			function (req, res) {
 			var request = req.params[0],
 				kw1 = req.params[1],
@@ -241,8 +241,10 @@
 				medium = req.params[9],
 				minPages = req.params[10],	// default!
 				maxPages = req.params[11],	// default!
-				bib = req.params[12];
+				stat = req.params[12],
+				bib = req.params[13];
 			res.send({
+				stat: stat,
 				req: request,
 				kw1: kw1,
 				kw2: kw2,
