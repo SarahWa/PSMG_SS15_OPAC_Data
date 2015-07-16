@@ -125,7 +125,6 @@ App.ChartView = (function(){
 		options.title.text = 'Anzahl der gefundenen Ressourcen aufgeteilt nach '+req;
 		options.legend.enabled = true;
 		options.data.columns = _getDataForSingleCharts(data);
-		console.log(options.data.columns);
 		options.tooltip.pointFormat = '{series.name}: <br> <b>{point.y} </b> <b>({point.percentage:.1f}%)</b>';
 		chart1 = new Highcharts.Chart(options);
 	},
@@ -179,7 +178,6 @@ App.ChartView = (function(){
          
         
     renderChart = function(data)   {
-		console.log(data);
 		if(data.length <=1) {
 			if(data[0].req == "Sprache" || data[0].req == "Medium" || data[0].req == "Verlage") {
 				_showSinglePieChart(data[0].num, data[0].req);

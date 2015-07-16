@@ -31,6 +31,7 @@ App.UIView = (function(){
     _handleDeleteQuery = function (e){
         var index = _getIndex(e);
         userInputArray.splice(index,1);
+        
         if(userInputArray.length<=0){
             _setInputDisable(false);   
         }
@@ -38,8 +39,7 @@ App.UIView = (function(){
             data = {
                 data:userInputArray
             }
-		  $('body').trigger('userInputs',data);
-        
+		  $('body').trigger('userInputs',data); 
     },
         
     _handleEditQuery = function (e){
@@ -48,7 +48,6 @@ App.UIView = (function(){
         $('#filter-options').removeClass('hide');
         $('#button-show-filter').addClass('hide');
         _setInput(input.kw1,input.kw2,input.author,input.publisher,input.yearMin,input.yearMax,input.pagesMin,input.pagesMax,input.place,input.language,input.medium);
-       
         userInputArray.splice(index,1);
         _addQueryToList();
     },
@@ -76,9 +75,9 @@ App.UIView = (function(){
 	_showFilterOptions = function (e) {
 		$(this).addClass('hide');
 		$('#filter-options').removeClass('hide');
+        
         if(userInputArray[0]!='undefined'){
             _setInput("","","","",userInputArray[0].yearMin,userInputArray[0].yearMax,userInputArray[0].pagesMin,userInputArray[0].pagesMax,"","","");
-            
             _setInputDisable(true);
         }else{
             _setInputDisable(false);
@@ -174,15 +173,13 @@ App.UIView = (function(){
 
         userInputArray.push(userInput);
 
-        _setInput("","","","",userInputArray[0].yearMin,userInputArray[0].yearMax,userInputArray[0].pagesMin,userInputArray[0].pagesMax,"","","");
-            
-            _setInputDisable(true);
-    
-        
-        
+        _setInput("","","","",userInputArray[0].yearMin,userInputArray[0].yearMax,userInputArray[0].pagesMin,userInputArray[0].pagesMax,"","","");   
+        _setInputDisable(true);
         _addQueryToList();
+        
 		selectedLanguage ="";
 		selectedMedium="";
+        
         $('#language-dropdown').parents('#language-dropdown-container').find('.dropdown-toggle').html("Sprache");
         $('#medium-dropdown').parents('#medium-dropdown-container').find('.dropdown-toggle').html("Medium");
 	},
@@ -196,7 +193,6 @@ App.UIView = (function(){
 	
 	_addQueryToList = function(){
         querylist.empty();
-        
         for (var i = 0;i<userInputArray.length;i++){
             querylist.append(_getContainerForQuery(userInputArray[i]));   
         }

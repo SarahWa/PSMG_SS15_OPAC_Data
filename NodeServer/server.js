@@ -107,7 +107,6 @@
 		var resultArray = [];
 		if (request == "Vergleich") {
 			var result = {
-				// evtl noch ändern
 				name: "",
 				num: getNumberOfMatches(kw1, kw2, author, publisher, place, language, minYear, maxYear, medium, minPages, maxPages, bib)
 			}

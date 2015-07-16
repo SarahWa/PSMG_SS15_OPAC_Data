@@ -49,7 +49,6 @@ App.DataFetcher = (function(){
     },
         
     _serverResponse = function(data) {
-       
 		responseDataArray.push(data);
         if(responseDataArray.length==length){
             response =  {
