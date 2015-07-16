@@ -171,18 +171,22 @@ App.ChartView = (function(){
 		}
 	},
 		
-	/*updateLanguageChart = function () {
+	_updateLanguageChart = function () {
 		for (var i = 0; i<= 2; i++) {
 			chart1.series[0].points[i].setVisible(false);
 		}
-	},*/
+	},
          
         
     renderChart = function(data)   {
+		console.log(data);
 		if(data.length <=1) {
 			if(data[0].req == "Sprache" || data[0].req == "Medium" || data[0].req == "Verlage") {
 				_showSinglePieChart(data[0].num, data[0].req);
 				_showInfo("pie");
+				if (data[0].stat == "static4") {
+					_updateLanguageChart();
+				}
 			}
 			else {
 				_showSingleColumnChart(data[0].num, data[0].req);
@@ -206,7 +210,6 @@ App.ChartView = (function(){
     
     that.init = init;
     that.renderChart= renderChart;
-	//that.updataLanguageChart = updateLanguageChart;
     
 
    return that; 

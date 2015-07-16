@@ -65,7 +65,7 @@
 				</div>
 					
 				<!-- #filteroptions -->
-					<div>
+					<div id="queryListContainer">
                         <ul id="querylist">
                             
                         </ul>
@@ -179,13 +179,38 @@
 						</div>
 						<div class="panel-body">
                         	<p><b>Aus-/Einblenden:</b> Sie können bestimmte Anteile des Diagrams <b>aus- oder einblenden</b>, indem Sie diese in der Legende anklicken.</p>
+							<p><b>Zoomen:</b> Sie können mit der Maus ein Fenster nach rechts oder links über der Visualisierung aufziehen, um diesen Bereich genauer anzuzeigen</p>
+							<p>Über den Button "reset zoom" gelangen sie wieder zur ursprünglichen Ansicht</p>
 						</div>
                     </div>
                         
 					<div id="chartContainer" class="col-md-10">
 						
 					</div>
-					<div id="requestselector" class="col-md-2">
+					<div class="col-md-2">
+						
+						<div class="chart-desc hide panel panel-default" id="chart-desc-1">
+							<div class="panel-body">
+								<p>Hier sehen Sie die Anzahl der Bücher über Javascript, CSS und HTML5 aus den Jahren 1992 - 2016</p>
+							</div>
+                    	</div>
+						<div class="chart-desc hide panel panel-default" id="chart-desc-2">
+							<div class="panel-body">
+								<p>Hier sehen Sie die Anzahl der Bücher und ebooks aus den Jahren 1980 - 2016</p>
+							</div>
+                    	</div>
+						<div class="chart-desc hide panel panel-default" id="chart-desc-3">
+							<div class="panel-body">
+								<p>Hier sehen Sie die am häufigsten angegebenen Verlage im Vergleich</p>
+							</div>
+                    	</div>
+						<div class="chart-desc hide panel panel-default" id="chart-desc-4">
+							<div class="panel-body">
+								<p>Hier sehen Sie den Vergleich der angegebenen Sprachen ohne die häufigsten drei: deutsch, englisch und keiner Sprache zugeordnet</p>
+							</div>
+                    	</div>
+						
+						<div id="requestselector">
 							<div class="dropup content" id="filterButton">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     x-Achse
@@ -200,6 +225,7 @@
 	<li><a href='#chartWrapper'>Vergleich</a></li>
   </ul>
 </div>
+						</div>
 					</div>
 					
 					

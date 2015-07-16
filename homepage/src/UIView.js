@@ -6,6 +6,7 @@ App.UIView = (function(){
 		selectedMedium ="",
 		selectedLanguage ="",
 		request = "Bibliotheken",
+		stat = "",
 		
 	init = function(list) {
 		$('#button-compare').tooltip();
@@ -118,10 +119,12 @@ App.UIView = (function(){
 		if ($(this).attr('href')=="#start") {
 			request = "Bibliotheken";
 			$('#filterButton').removeClass('hide');
+			$('.chart-desc').addClass('hide');
 			_changeChart();
 		}else 
             if($(this).attr('href')== "#filter-options"){
 		  	$('#filterButton').removeClass('hide');
+			$('.chart-desc').addClass('hide');
             $('#x-axis-drowdown').parents('#filterButton').find('.dropdown-toggle').html(request);
             _setInputDisable(false);
 		}else{
@@ -138,6 +141,7 @@ App.UIView = (function(){
 	_getInput = function (request) {
 		var userInput;
 			userInput = {
+				stat: stat,
 				req: request,
                 kw1: $("#kw1").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
                 kw2: $("#kw2").val().toLowerCase().replace("ä","ae").replace("ö","oe").replace("ü","ue"),
@@ -204,6 +208,7 @@ App.UIView = (function(){
     },
 		
 	_getChartByXAxisCall = function(e) {
+		e.preventDefault();
 		request = $(this).text();
         $(this).parents('#filterButton').find('.dropdown-toggle').html(request);
 		_changeChart();
@@ -212,7 +217,9 @@ App.UIView = (function(){
 	_changeChart = function () {
 		var input;
 		if (userInputArray.length <1) {
-			input = {req: request,
+			input = {
+				stat: stat,
+				req: request,
                 kw1: "",
                 kw2: "",
                 author: "",

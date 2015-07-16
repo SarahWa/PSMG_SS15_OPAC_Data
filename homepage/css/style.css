@@ -28,6 +28,7 @@
 
 #filter-options {
 	height: auto;
+	margin-bottom: 20px;
 }
 
 #requestselector {
@@ -46,6 +47,10 @@ input.field {
 	border-bottom: 2px;
 	border-bottom-color: grey;
 	border-bottom-style: solid;
+}
+
+#queryListContainer{
+	margin-bottom: 20px;
 }
 
 #querylist {
